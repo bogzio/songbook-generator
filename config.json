@@ -1,0 +1,17 @@
+{
+    "pagesDirectory": "content",
+    "songsDirectory": "songs",
+
+    "outputDirectory": "generated",
+    "htmlOutputFile": "output.html",
+    "pdfOutputFile": "output.pdf",
+
+    "templatesDirectory": "templates",
+    "tocTemplate": "toc.template.html",
+    "indexTemplate": "index.template.html",
+    "songTemplate": "song.template.html",
+
+    "tocHeader": "Alfabetyczny spis treści",
+    "tocItemsCountFirstPage": 43,
+    "tocItemsCountNextPages": 45
+}

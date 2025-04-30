@@ -1,0 +1,232 @@
+@font-face {
+    font-family: "Raleway";
+    src: url("fonts/Raleway-VariableFont_wght.ttf");
+}
+
+@font-face {
+    font-family: "Raleway";
+    font-style: italic;
+    src: url("fonts/Raleway-Italic-VariableFont_wght.ttf");
+}
+
+@font-face {
+    font-family: "NotoSans";
+    src: url("fonts/NotoSans-Regular.ttf");
+}
+
+@font-face {
+    font-family: "NotoSans";
+    font-style: italic;
+    src: url("fonts/NotoSans-Italic.ttf");
+}
+
+@font-face {
+    font-family: "NotoSans";
+    font-weight: bold;
+    src: url("fonts/NotoSans-Bold.ttf");
+}
+
+@font-face {
+    font-family: "NotoSans";
+    font-weight: bold;
+    font-style: italic;
+    src: url("fonts/NotoSans-BoldItalic.ttf");
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: "NotoSans";
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.pageBreak {
+    break-after: right;
+}
+
+.page {
+    width: 148.5mm;
+    height: 210mm;
+    padding: 3mm;
+    font-size: 3mm;
+    position: relative;
+    break-after: page;
+
+    &.left {
+        padding-right: 5mm;
+    }
+
+    &.right {
+        padding-left: 5mm;
+    }
+
+    &:not(.left):not(.right) {
+        padding-left: 4mm;
+        padding-right: 4mm;
+    }
+
+    @media screen {
+        margin: 20px auto;
+        box-shadow: 2px 2px 5px rgb(0, 0, 0, 50%);
+    }
+
+    & header {
+        background-color: gray;
+        color: white;
+        padding: 1mm 3mm;
+        font-size: 1.2em;
+        font-weight: bold;
+        border-radius: 1mm;
+        margin-bottom: 2mm;
+        font-family: "Raleway";
+
+        .title {
+            text-transform: capitalize;
+        }
+
+        .author {
+            text-transform: uppercase;
+
+            &:before {
+                content: "\2013\00a0";
+            }
+        }
+
+        .non-polish &:after {
+            content: '\2691';
+            margin-left: 2mm;
+        }
+    }
+
+    .song {
+        & + & {
+            margin-top: 5mm;
+        }
+
+        .content-wrapper {
+            margin: 0 1mm;
+            column-gap: 2mm;
+
+            &.columns-2 {
+                columns: 2;
+            }
+
+            &.columns-3 {
+                columns: 3;
+            }
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: max-content auto;
+            gap: 0 2mm;
+            margin: 0;
+            line-height: 1.5em;
+
+            & dt {
+                grid-column-start: 1;
+                text-align: right;
+                font-weight: bold;
+                white-space: nowrap;
+                word-spacing: 0mm;
+                letter-spacing: -0.1mm;
+                font-style: italic;
+                font-family: "Raleway";
+            }
+
+            & dd {
+                grid-column-start: 2;
+                margin: 0;
+                break-after: avoid-column;
+                -webkit-column-break-after: avoid;
+            }
+
+            & br {
+                break-before: avoid-column;
+                -webkit-column-break-before: avoid;
+
+                .smaller-breaks & {
+                    content: "";
+                    margin-top: 3mm;
+                }
+            }
+        }
+    }
+
+    & footer {
+        position: absolute;
+        bottom: 3mm;
+        left: 5mm;
+        right: 5mm;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 3.2mm;
+
+        .left & {
+            flex-direction: row-reverse;
+        }
+
+        &:before {
+            content: 'bogdanek.wordpress.com';
+            font-style: italic;
+            color: #a7a7a7;
+        }
+    }
+
+    .tocItem {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        line-height: 1.5em;
+
+        .separator {
+            flex-grow: 1;
+            height: 0;
+            border-bottom: 1px dotted #a1a1a1;
+            top: 50%;
+        }
+
+        .name,
+        .pageNumber {
+            padding: 0 2mm;
+        }
+    }
+
+    & pre {
+        font-size: 0.8em;
+        line-height: 1.2em;
+    }
+}
+
+.size-12 {
+    font-size: 1.2em;
+}
+
+.size-11 {
+    font-size: 1.1em;
+}
+
+.size-095 {
+    font-size: 0.95em;
+}
+
+.size-09 {
+    font-size: 0.9em;
+}
+
+.size-085 {
+    font-size: 0.85em;
+}
+
+.size-08 {
+    font-size: 0.8em;
+}
+
