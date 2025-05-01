@@ -12,8 +12,8 @@
     "songTemplate": "song.template.html",
 
     "tocHeader": "Alfabetyczny spis treści",
-    "tocItemsCountFirstPage": 43,
-    "tocItemsCountNextPages": 45,
+    "tocItemsCountFirstPage": 42,
+    "tocItemsCountNextPages": 44,
 
     "songbookConfigFile": "songbook-config.json"
 }
