@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { JSDOM } = require('jsdom');
 const Config = require('../config.json');
-const { groupArray } = require("./utils");
+const { groupArray, getCommandLineArguments} = require("./utils");
 
 const getTocItemHTML = (tocItem) => `
 <div class="tocItem">
@@ -15,8 +15,8 @@ const getTocItemHTML = (tocItem) => `
 const getToc = (songsDirectory) => {
     const toc = [];
 
-    fs.readdirSync(path.normalize(songsDirectory)).forEach(fileName => {
-        const file = fs.readFileSync(path.join(path.normalize(Config.songsDirectory), fileName));
+    fs.readdirSync(songsDirectory).forEach(fileName => {
+        const file = fs.readFileSync(path.join(songsDirectory, fileName));
         const dom = new JSDOM(file.toString());
 
         const pageNumber = parseInt(fileName);
@@ -53,7 +53,7 @@ const getToc = (songsDirectory) => {
 const getSongs = (songsDirectory) => {
     const pages = [];
 
-    fs.readdirSync(path.normalize(songsDirectory)).forEach(fileName => {
+    fs.readdirSync(songsDirectory).forEach(fileName => {
         const file = fs.readFileSync(path.join(songsDirectory, fileName));
         const pageNumber = parseInt(fileName);
         const dom = new JSDOM(file.toString());
@@ -69,20 +69,29 @@ const getSongs = (songsDirectory) => {
 }
 
 const generate = () => {
+
+    const [songsRepository] = getCommandLineArguments();
+    if (!songsRepository) {
+        console.log('Usage: node .\\format-songs.js ..\\my-songs-repo');
+        return;
+    }
+
+    const songsDirectory = path.join(path.normalize(songsRepository), Config.songsDirectory);
+
     const htmlParts = [];
 
-    htmlParts.push(getToc(path.normalize(Config.songsDirectory)));
+    htmlParts.push(getToc(songsDirectory));
     htmlParts.push('<div class="pageBreak"></div>');
-    htmlParts.push(...getSongs(path.normalize(Config.songsDirectory)));
+    htmlParts.push(...getSongs(songsDirectory));
 
     const indexTemplate = fs.readFileSync(path.join(Config.templatesDirectory, Config.indexTemplate));
     const indexContent = indexTemplate.toString().replace('#content#', htmlParts.join('\n'));
 
-    if (!fs.existsSync(path.normalize(Config.outputDirectory))) {
-        fs.mkdirSync(path.normalize(Config.outputDirectory));
+    if (!fs.existsSync(path.join(path.normalize(songsRepository), Config.outputDirectory))) {
+        fs.mkdirSync(path.join(path.normalize(songsRepository), Config.outputDirectory));
     }
 
-    fs.writeFileSync(path.join(Config.outputDirectory, Config.htmlOutputFile), indexContent);
+    fs.writeFileSync(path.join(path.normalize(songsRepository), Config.outputDirectory, Config.htmlOutputFile), indexContent);
 }
 
 generate();

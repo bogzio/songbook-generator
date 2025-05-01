@@ -15,10 +15,20 @@ Root
 # Skrypty
 dodaj nową stronę z dwoma piosenkami, pierwsza 2 kolumnowa, druga 1 kolumnowa:
 ```
-node .\scripts\add-page.js ..\repo-ze-spiewnikiem 2 1
+node .\scripts\add-page.js ..\moj-maly-spiewniczek 2 1
 ```
 
 formatuj pliki html z piosenkami:
 ```
-node .\scripts\format-songs.js ..\repo-ze-spiewnikiem
+node .\scripts\format-songs.js ..\moj-maly-spiewniczek
+```
+
+generuj śpiewnik html:
+```
+node .\scripts\generate-html.js ..\moj-maly-spiewniczek
+```
+
+generuj śpiewnik pdf (wcześniej należy wygenerować html):
+```
+node .\scripts\generate-pdf.js ..\moj-maly-spiewniczek
 ```
