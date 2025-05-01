@@ -175,7 +175,7 @@ body {
         }
 
         &:before {
-            content: 'bogdanek.wordpress.com';
+            content: attr(data-extra);
             font-style: italic;
             color: #a7a7a7;
         }

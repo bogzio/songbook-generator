@@ -50,7 +50,7 @@ const getToc = (songsDirectory) => {
     return tocTemplateDom.window.document.querySelector('.toc').outerHTML;
 }
 
-const getSongs = (songsDirectory) => {
+const getSongs = (songsDirectory, songbookConfig) => {
     const pages = [];
 
     fs.readdirSync(songsDirectory).forEach(fileName => {
@@ -61,6 +61,7 @@ const getSongs = (songsDirectory) => {
 
         page.classList.add(pageNumber %2 === 0 ? 'left' : 'right');
         page.querySelector('footer').innerHTML = pageNumber;
+        page.querySelector('footer').dataset.extra = `${songbookConfig.footerExtra} ~ ${songbookConfig.version}`;
 
         pages.push(page.outerHTML);
     });
@@ -77,12 +78,13 @@ const generate = () => {
     }
 
     const songsDirectory = path.join(path.normalize(songsRepository), Config.songsDirectory);
+    const songbookConfig = JSON.parse(fs.readFileSync(path.join(path.normalize(songsRepository), Config.songbookConfigFile)));
 
     const htmlParts = [];
 
     htmlParts.push(getToc(songsDirectory));
     htmlParts.push('<div class="pageBreak"></div>');
-    htmlParts.push(...getSongs(songsDirectory));
+    htmlParts.push(...getSongs(songsDirectory, songbookConfig));
 
     const indexTemplate = fs.readFileSync(path.join(Config.templatesDirectory, Config.indexTemplate));
     const indexContent = indexTemplate.toString().replace('#content#', htmlParts.join('\n'));

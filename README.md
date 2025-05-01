@@ -28,7 +28,7 @@ generuj śpiewnik html:
 node .\scripts\generate-html.js ..\moj-maly-spiewniczek
 ```
 
-generuj śpiewnik pdf (wcześniej należy wygenerować html):
+generuj śpiewnik pdf (wcześniej należy wygenerować html, oraz nie należy mieć otwartego pliku generated.pdf w czytniku pdf):
 ```
 node .\scripts\generate-pdf.js ..\moj-maly-spiewniczek
 ```
