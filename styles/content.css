@@ -243,27 +243,27 @@ body {
     }
 }
 
-.size-12 {
+.bigger-2 {
     font-size: 1.2em;
 }
 
-.size-11 {
+.bigger-1 {
     font-size: 1.1em;
 }
 
-.size-095 {
+.smaller-1 {
     font-size: 0.95em;
 }
 
-.size-09 {
+.smaller-2 {
     font-size: 0.9em;
 }
 
-.size-085 {
+.smaller-3 {
     font-size: 0.85em;
 }
 
-.size-08 {
+.smaller-4 {
     font-size: 0.8em;
 }
 
