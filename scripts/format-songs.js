@@ -34,7 +34,7 @@ fs.readdirSync(path.join(path.normalize(songsRepository), Config.songsDirectory)
         song.innerHTML = song.innerHTML
             .split('\n')
             .map(row => {
-                const parts = row.split(/\s*(?=<dd>)|(?=<dt>)/);
+                const parts = row.split(/\s*(?=<dd)|(?=<dt>)/);
                 if (parts.length === 3) {
                     const dtTabs = Math.floor(parts[1].length / 4);
                     const tabs = Array(maxTabs - dtTabs + 1).fill('\t').join('');
