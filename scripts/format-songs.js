@@ -5,16 +5,15 @@ const Config = require('../config.json');
 const { toTitleCase, getFormattedHTML, getCommandLineArguments} = require('./utils')
 
 
-const [songsRepository, ...columns] = getCommandLineArguments();
+const [songsRepository] = getCommandLineArguments();
 if (!songsRepository) {
-    console.log('Usage: add-page.js path/to/songs-repo 2 1');
-    console.log('will create a new page in path/to/songs-repo/songs with 2 songs, first in 1-column and the second in 2-column layout');
+    console.log('Usage: node .\\format-songs.js ..\\my-songs-repo');
     return;
 }
 
 
-fs.readdirSync(path.normalize(Config.songsDirectory)).forEach(fileName => {
-    const filePath = path.join(path.normalize(Config.songsDirectory), fileName);
+fs.readdirSync(path.join(path.normalize(songsRepository), Config.songsDirectory)).forEach(fileName => {
+    const filePath = path.join(path.normalize(songsRepository), Config.songsDirectory, fileName);
     const file = fs.readFileSync(filePath);
     const dom = new JSDOM(file.toString());
 
