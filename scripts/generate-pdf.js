@@ -22,7 +22,7 @@ const outputDirectory = path.join(path.normalize(songsRepository), Config.output
     await page.pdf({
         path: path.join(outputDirectory, Config.pdfOutputFile),
         printBackground: true,
-        width: '148mm',
+        width: '148.5mm',
         height: '210mm',
     });
 

@@ -37,17 +37,13 @@ const getToc = (songsDirectory) => {
 
     const groups = groupArray(toc, Config.tocItemsCountFirstPage, Config.tocItemsCountNextPages);
 
-    const pages = groups.map((group, index) => {
+    return groups.map((group, index) => {
         const header = index === 0 ? `<header>${Config.tocHeader}</header>` : undefined;
         const items = group.map(getTocItemHTML).join('\n');
         pageElement.classList.remove('left', 'right');
         pageElement.classList.add(index %2 === 0 ? 'right' : 'left');
         return pageElement.outerHTML.replace('#content#', [header, items].filter(Boolean).join('\n'));
     })
-
-    tocTemplateDom.window.document.querySelector('.toc').innerHTML = pages.join('\n');
-
-    return tocTemplateDom.window.document.querySelector('.toc').outerHTML;
 }
 
 const getSongs = (songsDirectory, songbookConfig) => {
@@ -82,7 +78,7 @@ const generate = () => {
 
     const htmlParts = [];
 
-    htmlParts.push(getToc(songsDirectory));
+    htmlParts.push(...getToc(songsDirectory));
     htmlParts.push('<div class="pageBreak"></div>');
     htmlParts.push(...getSongs(songsDirectory, songbookConfig));
 

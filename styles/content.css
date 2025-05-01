@@ -33,6 +33,14 @@
     src: url("fonts/NotoSans-BoldItalic.ttf");
 }
 
+:root {
+    --page-width: 148.5mm;
+    --page-height: 210mm;
+
+    --page-padding: 5mm;
+    --page-bleed: 8mm;
+}
+
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -47,33 +55,52 @@ body {
     padding: 0;
 }
 
+body {
+
+    display: grid;
+    grid-template-columns: var(--page-width);
+    justify-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+
+    &.double {
+        grid-template-columns: var(--page-width) var(--page-width);
+    }
+
+    @media screen {
+        gap: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+}
+
 .pageBreak {
     break-after: right;
 }
 
 .page {
-    width: 148.5mm;
-    height: 210mm;
-    padding: 3mm;
+    width: var(--page-width);
+    height: var(--page-height);
+    padding: var(--page-padding);
     font-size: 3mm;
     position: relative;
     break-after: page;
 
     &.left {
-        padding-right: 5mm;
+        padding-right: calc(var(--page-padding) + var(--page-bleed));
     }
 
     &.right {
-        padding-left: 5mm;
+        padding-left: calc(var(--page-padding) + var(--page-bleed));
     }
 
     &:not(.left):not(.right) {
-        padding-left: 4mm;
-        padding-right: 4mm;
+        padding-left: calc((2 * var(--page-padding) + var(--page-bleed)) / 2);
+        padding-right: calc((2 * var(--page-padding) + var(--page-bleed)) / 2);
     }
 
     @media screen {
-        margin: 20px auto;
         box-shadow: 2px 2px 5px rgb(0, 0, 0, 50%);
     }
 
@@ -162,9 +189,9 @@ body {
 
     & footer {
         position: absolute;
-        bottom: 3mm;
-        left: 5mm;
-        right: 5mm;
+        bottom: var(--page-padding);
+        left: var(--page-padding);
+        right: var(--page-padding);
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -172,10 +199,20 @@ body {
 
         .left & {
             flex-direction: row-reverse;
+            right: calc(var(--page-padding) + var(--page-bleed));
+        }
+
+        .right & {
+            left: calc(var(--page-padding) + var(--page-bleed));
+        }
+
+        :not(.left):not(.right) & {
+            left: calc((2 * var(--page-padding) + var(--page-bleed)) / 2);
+            right: calc((2 * var(--page-padding) + var(--page-bleed)) / 2);
         }
 
         &:before {
-            content: attr(data-extra);
+            content: attr(data-extra, "(footer-placeholder)");
             font-style: italic;
             color: #a7a7a7;
         }
