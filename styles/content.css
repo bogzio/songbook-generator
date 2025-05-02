@@ -124,13 +124,14 @@ body {
 
     & header {
         outline: 1px solid black;
-        padding: 1mm 3mm;
+        padding: 1mm 1.25mm 1mm 3mm;
         font-size: 1.2em;
         font-weight: bold;
         border-radius: 1mm;
         margin-bottom: 2mm;
         font-family: "Raleway";
-        position: relative;
+        display: flex;
+        align-items: center;
 
         .title {
             text-transform: capitalize;
@@ -146,10 +147,8 @@ body {
         }
 
         .tags {
-            position: absolute;
-            right: 0.75mm;
-            top: 0.75mm;
-            bottom: 0.75mm;
+            height: calc(100% - 1.5mm);
+            margin-left: auto;
 
             .tag {
                 border: 1px solid black;
@@ -158,6 +157,7 @@ body {
                 font-size: 0.85em;
                 display: flex;
                 align-items: center;
+                overflow: hidden;
             }
         }
     }
