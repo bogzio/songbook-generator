@@ -146,18 +146,20 @@ body {
         }
 
         .capo {
-            background-color: #4e4e4e;
-            color: white;
+            border: 1px solid black;
             border-radius: 1mm;
             padding: 0.5mm 1.5mm;
             font-size: 0.85em;
-            font-weight: normal;
             position: absolute;
             right: 0.8mm;
             top: 0.8mm;
+            bottom: 0.8mm;
+            display: flex;
+            align-items: center;
+            gap: 1.5mm;
 
             &:before {
-                content: "capo ";
+                content: "capo";
             }
         }
     }
