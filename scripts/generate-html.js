@@ -7,6 +7,9 @@ const { groupArray, getCommandLineArguments, getBookletOrder, getFormattedHTML }
 const getTocItemHTML = (tocItem) => `
 <div class="tocItem">
     <div class="name">${tocItem[0]}</div>
+    <div class="tags">
+        ${tocItem[2] ? '<div class="tag non-polish"></div>' : ''}
+    </div>
     <div class="separator"></div>
     <div class="pageNumber">${tocItem[1]}</div>
 </div>
@@ -33,7 +36,8 @@ const getToc = (songsDirectory) => {
         dom.window.document.querySelectorAll('.song').forEach(songElement => {
             const nameElements = songElement.querySelectorAll('.title, .author');
             const name = Array.from(nameElements).map(element => element.innerHTML).join(' – ');
-            toc.push([name, pageNumber]);
+            const nonPolish = !!songElement.querySelector('.non-polish');
+            toc.push([name, pageNumber, nonPolish]);
         });
     });
 
