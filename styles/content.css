@@ -33,6 +33,19 @@
     src: url("fonts/NotoSans-BoldItalic.ttf");
 }
 
+@font-face {
+    font-family: "NotoSans";
+    font-weight: 500;
+    src: url("fonts/NotoSans-Medium.ttf");
+}
+
+@font-face {
+    font-family: "NotoSans";
+    font-weight: 500;
+    font-style: italic;
+    src: url("fonts/NotoSans-MediumItalic.ttf");
+}
+
 :root {
     --page-width: 148.5mm;
     --page-height: 210mm;
@@ -112,6 +125,7 @@ body {
         border-radius: 1mm;
         margin-bottom: 2mm;
         font-family: "Raleway";
+        position: relative;
 
         .title {
             text-transform: capitalize;
@@ -129,6 +143,22 @@ body {
         .non-polish &:after {
             content: '\2691';
             margin-left: 2mm;
+        }
+
+        .capo {
+            background-color: #4e4e4e;
+            color: white;
+            border-radius: 1mm;
+            padding: 0.5mm 1.5mm;
+            font-size: 0.85em;
+            font-weight: normal;
+            position: absolute;
+            right: 0.8mm;
+            top: 0.8mm;
+
+            &:before {
+                content: "capo ";
+            }
         }
     }
 
