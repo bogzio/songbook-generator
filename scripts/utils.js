@@ -29,3 +29,10 @@ module.exports.groupArray = (array, itemsInFirstGroup, itemsInNextGroups) => {
 }
 
 module.exports.getCommandLineArguments = () => process.argv.slice(2);
+
+module.exports.getBookletOrder = (originalIndex, pagesCount) => {
+    const firstHalf = originalIndex < pagesCount / 2;
+    const distanceFromEnd = firstHalf ? originalIndex : pagesCount - originalIndex;
+    const offset = firstHalf ? 1 : -1;
+    return distanceFromEnd + Math.floor(distanceFromEnd / 2) * 2 + offset;
+};

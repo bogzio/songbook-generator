@@ -4,12 +4,15 @@
 
     "outputDirectory": "generated",
     "htmlOutputFile": "output.html",
+    "htmlBookletOutputFile": "booklet.html",
     "pdfOutputFile": "output.pdf",
+    "pdfBookletOutputFile": "booklet.pdf",
 
     "templatesDirectory": "templates",
     "tocTemplate": "toc.template.html",
     "indexTemplate": "index.template.html",
     "songTemplate": "song.template.html",
+    "emptyTemplate": "empty.template.html",
 
     "tocHeader": "Alfabetyczny spis treści",
     "tocItemsCountFirstPage": 42,

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { JSDOM } = require('jsdom');
 const Config = require('../config.json');
-const { groupArray, getCommandLineArguments} = require("./utils");
+const { groupArray, getCommandLineArguments, getBookletOrder, getFormattedHTML } = require("./utils");
 
 const getTocItemHTML = (tocItem) => `
 <div class="tocItem">
@@ -11,6 +11,15 @@ const getTocItemHTML = (tocItem) => `
     <div class="pageNumber">${tocItem[1]}</div>
 </div>
 `;
+
+const emptyTemplateFile = fs.readFileSync(path.join(Config.templatesDirectory, Config.emptyTemplate));
+const emptyTemplateDom = new JSDOM(emptyTemplateFile.toString());
+const emptyPage = emptyTemplateDom.window.document.querySelector('.page');
+
+const getEmptyPageHTML = (isBookletOnly) => {
+    emptyPage.classList.toggle('booklet-only', isBookletOnly);
+    return emptyPage.outerHTML;
+}
 
 const getToc = (songsDirectory) => {
     const toc = [];
@@ -37,13 +46,19 @@ const getToc = (songsDirectory) => {
 
     const groups = groupArray(toc, Config.tocItemsCountFirstPage, Config.tocItemsCountNextPages);
 
-    return groups.map((group, index) => {
+    let pages = groups.map((group, index) => {
         const header = index === 0 ? `<header>${Config.tocHeader}</header>` : undefined;
         const items = group.map(getTocItemHTML).join('\n');
         pageElement.classList.remove('left', 'right');
         pageElement.classList.add(index %2 === 0 ? 'right' : 'left');
         return pageElement.outerHTML.replace('#content#', [header, items].filter(Boolean).join('\n'));
     })
+
+    if (pages.length % 2 !== 0) {
+        pages.push(getEmptyPageHTML());
+    }
+
+    return pages;
 }
 
 const getSongs = (songsDirectory, songbookConfig) => {
@@ -79,8 +94,10 @@ const generate = () => {
     const htmlParts = [];
 
     htmlParts.push(...getToc(songsDirectory));
-    htmlParts.push('<div class="pageBreak"></div>');
-    htmlParts.push(...getSongs(songsDirectory, songbookConfig));
+    htmlParts.push(...getSongs(songsDirectory, songbookConfig, htmlParts.length));
+
+    const missingPages = 4 - htmlParts.length % 4
+    htmlParts.push(...Array(missingPages).fill(getEmptyPageHTML(true)));
 
     const indexTemplate = fs.readFileSync(path.join(Config.templatesDirectory, Config.indexTemplate));
     const indexContent = indexTemplate.toString().replace('#content#', htmlParts.join('\n'));
@@ -90,6 +107,17 @@ const generate = () => {
     }
 
     fs.writeFileSync(path.join(path.normalize(songsRepository), Config.outputDirectory, Config.htmlOutputFile), indexContent);
+
+    const indexDom = new JSDOM(indexContent);
+
+    indexDom.window.document.querySelector('body').classList.add('booklet');
+
+    const pages = indexDom.window.document.querySelectorAll('.page');
+    pages.forEach((page, index) => {
+        page.setAttribute('style', `order: ${getBookletOrder(index, pages.length)}`);
+    });
+
+    fs.writeFileSync(path.join(path.normalize(songsRepository), Config.outputDirectory, Config.htmlBookletOutputFile), getFormattedHTML(indexDom));
 }
 
 generate();

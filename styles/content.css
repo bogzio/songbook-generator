@@ -69,7 +69,6 @@ body {
 }
 
 body {
-
     display: grid;
     grid-template-columns: var(--page-width);
     justify-items: center;
@@ -77,8 +76,12 @@ body {
     margin-right: auto;
     width: fit-content;
 
-    &.double {
+    &.booklet {
         grid-template-columns: var(--page-width) var(--page-width);
+    }
+
+    :not(.booklet) .booklet-only {
+        display: none;
     }
 
     @media screen {
@@ -86,10 +89,6 @@ body {
         margin-top: 20px;
         margin-bottom: 20px;
     }
-}
-
-.pageBreak {
-    break-after: right;
 }
 
 .page {
