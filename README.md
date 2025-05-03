@@ -52,7 +52,7 @@ moj-maly-spiewniczek
     ├── booklet.html
     └── booklet.pdf
 ```
-`output` to pliki do zwykłego druku w formacie A5, `booklet` to pliki które po wydrukowaniu w formacie A4, przecinamy w połowie i składamy na pół w tej kolejności w której są. Ułatwia to druk na zwykłych kartkach A4.
+`output` to pliki do zwykłego druku w formacie A5, `booklet` to pliki które po wydrukowaniu w formacie A4 (orientacja pozioma, obracanie po krótszym boku), przecinamy w połowie i składamy na pół w tej kolejności w której są. Ułatwia to druk na zwykłych kartkach A4.
 
 # Struktura piosenki i style
 
