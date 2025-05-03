@@ -19,7 +19,7 @@ const emptyTemplateFile = fs.readFileSync(path.join(Config.templatesDirectory, C
 const emptyTemplateDom = new JSDOM(emptyTemplateFile.toString());
 const emptyPage = emptyTemplateDom.window.document.querySelector('.page');
 
-const getEmptyPageHTML = (isBookletOnly) => {
+const getEmptyPageHTML = (isBookletOnly = false) => {
     emptyPage.classList.toggle('booklet-only', isBookletOnly);
     return emptyPage.outerHTML;
 }
@@ -67,7 +67,7 @@ const getToc = (songsDirectory) => {
 
     const groups = groupArray(toc, Config.tocItemsCountFirstPage, Config.tocItemsCountNextPages);
 
-    let pages = groups.map((group, index) => {
+    const pages = groups.map((group, index) => {
         const header = index === 0 ? `<header>${Config.tocHeader}</header>` : undefined;
         const items = group.map(getTocItemHTML).join('\n');
         pageElement.classList.remove('left', 'right');
@@ -75,7 +75,7 @@ const getToc = (songsDirectory) => {
         return pageElement.outerHTML.replace('#content#', [header, items].filter(Boolean).join('\n'));
     })
 
-    if (pages.length % 2 !== 0) {
+    if (pages.length % 2 === 1) {
         pages.push(getEmptyPageHTML());
     }
 
@@ -136,8 +136,14 @@ const generate = () => {
     htmlParts.push(...getSongs(songsDirectory, songbookConfig, htmlParts.length));
 
     const endPages = getEndPages(songbookPath);
-    const missingPages = 4 - (htmlParts.length + endPages.length) % 4
-    htmlParts.push(...Array(missingPages).fill(getEmptyPageHTML(true)));
+    const missingPages = htmlParts.length % 2;
+    const missingBookletPages = (htmlParts.length + endPages.length) % 4 - missingPages;
+
+    console.log('missingPages', missingPages)
+    console.log('missingBookletPages', missingBookletPages)
+
+    htmlParts.push(...Array(missingPages).fill(getEmptyPageHTML()));
+    htmlParts.push(...Array(missingBookletPages).fill(getEmptyPageHTML(true)));
     htmlParts.push(...endPages);
 
     const indexTemplate = fs.readFileSync(path.join(Config.templatesDirectory, Config.indexTemplate));
