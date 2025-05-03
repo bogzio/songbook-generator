@@ -63,12 +63,16 @@ body {
     margin-right: auto;
     width: fit-content;
 
-    &.booklet {
-        grid-template-columns: var(--page-width) var(--page-width);
+    .booklet-only {
+        display: none;
     }
 
-    :not(.booklet) .booklet-only {
-        display: none;
+    &.booklet {
+        grid-template-columns: var(--page-width) var(--page-width);
+
+        .booklet-only {
+            display: block;
+        }
     }
 
     @media screen {
