@@ -2,7 +2,7 @@
 Najpierw zainstaluj najnowszą wersję Node.js: https://nodejs.org/en/download. Następnie otwórz konsolę w głównym katalogu `songbook-generator` i wykonaj polecenie `npm i`.
 
 # Struktura plików
-Katalogi ze śpiewnikami powinno być obok repozytorium `songbook-generator` ze względu na ścieżki do styli ustawione na sztywno:
+Katalogi ze śpiewnikami powinny być obok repozytorium `songbook-generator` ze względu na ścieżki do styli ustawione na sztywno:
 ```
 Root
 ├── songbook-generator
