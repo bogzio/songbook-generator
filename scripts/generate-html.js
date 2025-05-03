@@ -24,9 +24,9 @@ const getEmptyPageHTML = (isBookletOnly) => {
     return emptyPage.outerHTML;
 }
 
-const getTitlePages = (songsRepository) => {
-    const songbookConfig = getSongbookConfig(songsRepository);
-    const titlePage = fs.readFileSync(path.join(songsRepository, songbookConfig.titlePageFile));
+const getTitlePages = (songbookPath) => {
+    const songbookConfig = getSongbookConfig(songbookPath);
+    const titlePage = fs.readFileSync(path.join(songbookPath, songbookConfig.titlePageFile));
 
     if (!titlePage) {
         return [];
@@ -101,9 +101,9 @@ const getSongs = (songsDirectory, songbookConfig) => {
     return pages;
 }
 
-const getEndPages = (songsRepository) => {
-    const songbookConfig = getSongbookConfig(songsRepository);
-    const endPage = fs.readFileSync(path.join(songsRepository, songbookConfig.endPageFile));
+const getEndPages = (songbookPath) => {
+    const songbookConfig = getSongbookConfig(songbookPath);
+    const endPage = fs.readFileSync(path.join(songbookPath, songbookConfig.endPageFile));
 
     if (!endPage) {
         return [];
@@ -120,22 +120,22 @@ const getEndPages = (songsRepository) => {
 
 const generate = () => {
 
-    const [songsRepository] = getCommandLineArguments();
-    if (!songsRepository) {
+    const [songbookPath] = getCommandLineArguments();
+    if (!songbookPath) {
         console.log('Usage: node .\\format-songs.js ..\\my-songs-repo');
         return;
     }
 
-    const songsDirectory = path.join(path.normalize(songsRepository), Config.songsDirectory);
-    const songbookConfig = getSongbookConfig(songsRepository);
+    const songsDirectory = path.join(path.normalize(songbookPath), Config.songsDirectory);
+    const songbookConfig = getSongbookConfig(songbookPath);
 
     const htmlParts = [];
 
-    htmlParts.push(...getTitlePages(songsRepository));
+    htmlParts.push(...getTitlePages(songbookPath));
     htmlParts.push(...getToc(songsDirectory));
     htmlParts.push(...getSongs(songsDirectory, songbookConfig, htmlParts.length));
 
-    const endPages = getEndPages(songsRepository);
+    const endPages = getEndPages(songbookPath);
     const missingPages = 4 - (htmlParts.length + endPages.length) % 4
     htmlParts.push(...Array(missingPages).fill(getEmptyPageHTML(true)));
     htmlParts.push(...endPages);
@@ -143,11 +143,11 @@ const generate = () => {
     const indexTemplate = fs.readFileSync(path.join(Config.templatesDirectory, Config.indexTemplate));
     const indexContent = indexTemplate.toString().replace('#content#', htmlParts.join('\n'));
 
-    if (!fs.existsSync(path.join(path.normalize(songsRepository), Config.outputDirectory))) {
-        fs.mkdirSync(path.join(path.normalize(songsRepository), Config.outputDirectory));
+    if (!fs.existsSync(path.join(path.normalize(songbookPath), Config.outputDirectory))) {
+        fs.mkdirSync(path.join(path.normalize(songbookPath), Config.outputDirectory));
     }
 
-    fs.writeFileSync(path.join(path.normalize(songsRepository), Config.outputDirectory, Config.htmlOutputFile), indexContent);
+    fs.writeFileSync(path.join(path.normalize(songbookPath), Config.outputDirectory, Config.htmlOutputFile), indexContent);
 
     const indexDom = new JSDOM(indexContent);
 
@@ -158,7 +158,7 @@ const generate = () => {
         page.setAttribute('style', `order: ${getBookletOrder(index, pages.length)}`);
     });
 
-    fs.writeFileSync(path.join(path.normalize(songsRepository), Config.outputDirectory, Config.htmlBookletOutputFile), getFormattedHTML(indexDom));
+    fs.writeFileSync(path.join(path.normalize(songbookPath), Config.outputDirectory, Config.htmlBookletOutputFile), getFormattedHTML(indexDom));
 }
 
 generate();

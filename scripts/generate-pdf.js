@@ -1,16 +1,15 @@
 const path = require('path');
-const fs = require('fs');
 const puppeteer = require('puppeteer');
 const Config = require('../config.json');
-const {getCommandLineArguments} = require("./utils");
+const { getCommandLineArguments } = require("./utils");
 
-const [songsRepository] = getCommandLineArguments();
-if (!songsRepository) {
+const [songbookPath] = getCommandLineArguments();
+if (!songbookPath) {
     console.log('Usage: node .\\format-songs.js ..\\my-songs-repo');
     return;
 }
 
-const outputDirectory = path.join(path.normalize(songsRepository), Config.outputDirectory);
+const outputDirectory = path.join(path.normalize(songbookPath), Config.outputDirectory);
 
 (async () => {
     const browser = await puppeteer.launch();

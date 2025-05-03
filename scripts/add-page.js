@@ -5,14 +5,14 @@ const Config = require('../config.json');
 const { getFormattedHTML, getCommandLineArguments} = require('./utils')
 
 
-const [songsRepository, ...columns] = getCommandLineArguments();
-if (!songsRepository || !columns.length) {
+const [songbookPath, ...columns] = getCommandLineArguments();
+if (!songbookPath || !columns.length) {
     console.log('Usage: node .\\add-page.js ..\\my-songs-repo 2 1');
     console.log(`will create a new page in ..\\my-songs-repo\\${Config.songsDirectory} with 2 songs, first in 2-column layout and the second in 1-column layout`);
     return;
 }
 
-const lastPage = fs.readdirSync(path.join(path.normalize(songsRepository), Config.songsDirectory))
+const lastPage = fs.readdirSync(path.join(path.normalize(songbookPath), Config.songsDirectory))
     .map(fileName => fileName.replace('.html', ''))
     .toSorted()
     .at(-1);
@@ -34,4 +34,4 @@ const content = '\n\n' + columns
 
 pageNode.innerHTML = content;
 
-fs.writeFileSync(path.join(path.normalize(songsRepository), Config.songsDirectory, fileName), getFormattedHTML(songDom));
+fs.writeFileSync(path.join(path.normalize(songbookPath), Config.songsDirectory, fileName), getFormattedHTML(songDom));

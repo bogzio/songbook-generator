@@ -5,15 +5,15 @@ const Config = require('../config.json');
 const { toTitleCase, getFormattedHTML, getCommandLineArguments} = require('./utils')
 
 
-const [songsRepository] = getCommandLineArguments();
-if (!songsRepository) {
+const [songbookPath] = getCommandLineArguments();
+if (!songbookPath) {
     console.log('Usage: node .\\format-songs.js ..\\my-songs-repo');
     return;
 }
 
 
-fs.readdirSync(path.join(path.normalize(songsRepository), Config.songsDirectory)).forEach(fileName => {
-    const filePath = path.join(path.normalize(songsRepository), Config.songsDirectory, fileName);
+fs.readdirSync(path.join(path.normalize(songbookPath), Config.songsDirectory)).forEach(fileName => {
+    const filePath = path.join(path.normalize(songbookPath), Config.songsDirectory, fileName);
     const file = fs.readFileSync(filePath);
     const dom = new JSDOM(file.toString());
 
