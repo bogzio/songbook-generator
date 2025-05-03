@@ -101,6 +101,23 @@ const getSongs = (songsDirectory, songbookConfig) => {
     return pages;
 }
 
+const getEndPages = (songsRepository) => {
+    const songbookConfig = getSongbookConfig(songsRepository);
+    const endPage = fs.readFileSync(path.join(songsRepository, songbookConfig.endPageFile));
+
+    if (!endPage) {
+        return [];
+    }
+
+    const endPageDOM = new JSDOM(endPage.toString());
+    const pageElement = endPageDOM.window.document.querySelector('.page');
+
+    return [
+        getEmptyPageHTML(),
+        pageElement.outerHTML,
+    ]
+}
+
 const generate = () => {
 
     const [songsRepository] = getCommandLineArguments();
@@ -118,8 +135,10 @@ const generate = () => {
     htmlParts.push(...getToc(songsDirectory));
     htmlParts.push(...getSongs(songsDirectory, songbookConfig, htmlParts.length));
 
-    const missingPages = 4 - htmlParts.length % 4
+    const endPages = getEndPages(songsRepository);
+    const missingPages = 4 - (htmlParts.length + endPages.length) % 4
     htmlParts.push(...Array(missingPages).fill(getEmptyPageHTML(true)));
+    htmlParts.push(...endPages);
 
     const indexTemplate = fs.readFileSync(path.join(Config.templatesDirectory, Config.indexTemplate));
     const indexContent = indexTemplate.toString().replace('#content#', htmlParts.join('\n'));
