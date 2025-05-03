@@ -1,3 +1,7 @@
+const fs = require("fs");
+const path = require("path");
+const Config = require("../config.json");
+
 module.exports.toTitleCase = (string) => string
     .toLowerCase()
     .split(' ')
@@ -8,7 +12,6 @@ module.exports.getFormattedHTML = (dom) => dom.window.document.documentElement.o
     .replace('<html', '<!DOCTYPE html>\n<html')
     .replace('<html lang="pl"><head>', '<html lang="pl">\n<head>')
     .replace(/<\/div>\s+<\/body><\/html>/, '</div>\n</body>\n</html>');
-
 
 /**
  * Dzieli tablicę na grupy o zadanej liczbie elementów
@@ -36,3 +39,6 @@ module.exports.getBookletOrder = (originalIndex, pagesCount) => {
     const offset = firstHalf ? 1 : -1;
     return distanceFromEnd + Math.floor(distanceFromEnd / 2) * 2 + offset;
 };
+
+module.exports.getSongbookConfig = (songbookPath) =>
+    JSON.parse(fs.readFileSync(path.join(path.normalize(songbookPath), Config.songbookConfigFile)));

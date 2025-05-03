@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { JSDOM } = require('jsdom');
 const Config = require('../config.json');
-const { groupArray, getCommandLineArguments, getBookletOrder, getFormattedHTML } = require("./utils");
+const { groupArray, getCommandLineArguments, getBookletOrder, getFormattedHTML, getSongbookConfig} = require("./utils");
 
 const getTocItemHTML = (tocItem) => `
 <div class="tocItem">
@@ -22,6 +22,23 @@ const emptyPage = emptyTemplateDom.window.document.querySelector('.page');
 const getEmptyPageHTML = (isBookletOnly) => {
     emptyPage.classList.toggle('booklet-only', isBookletOnly);
     return emptyPage.outerHTML;
+}
+
+const getTitlePages = (songsRepository) => {
+    const songbookConfig = getSongbookConfig(songsRepository);
+    const titlePage = fs.readFileSync(path.join(songsRepository, songbookConfig.titlePageFile));
+
+    if (!titlePage) {
+        return [];
+    }
+
+    const titlePageDOM = new JSDOM(titlePage.toString());
+    const pageElement = titlePageDOM.window.document.querySelector('.page');
+
+    return [
+        pageElement.outerHTML,
+        getEmptyPageHTML(),
+    ]
 }
 
 const getToc = (songsDirectory) => {
@@ -93,10 +110,11 @@ const generate = () => {
     }
 
     const songsDirectory = path.join(path.normalize(songsRepository), Config.songsDirectory);
-    const songbookConfig = JSON.parse(fs.readFileSync(path.join(path.normalize(songsRepository), Config.songbookConfigFile)));
+    const songbookConfig = getSongbookConfig(songsRepository);
 
     const htmlParts = [];
 
+    htmlParts.push(...getTitlePages(songsRepository));
     htmlParts.push(...getToc(songsDirectory));
     htmlParts.push(...getSongs(songsDirectory, songbookConfig, htmlParts.length));
 
