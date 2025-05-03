@@ -1,5 +1,5 @@
 # Instalacja
-Najpierw zainstaluj najnowszą wersję Node.js: https://nodejs.org/en/download. Następnie otwórz konsolę w głównym katalogu `songbook-generator` i wykonaj polecenie `npm i`.
+Najpierw zainstaluj najnowszą wersję [Node.js](https://nodejs.org/en/download). Następnie otwórz konsolę w głównym katalogu `songbook-generator` i wykonaj polecenie `npm i`.
 
 # Struktura plików
 Katalogi ze śpiewnikami powinny być obok repozytorium `songbook-generator` ze względu na ścieżki do styli ustawione na sztywno:
@@ -82,3 +82,5 @@ moj-maly-spiewniczek
 * klasa do zmniejszania odstępów `<br>` kiedy piosenka nie mieści się na wysokość a nie ma już łamanych wierszy: `smaller-breaks`
 * ustawianie na ile kolumn zostanie podzielona piosenka (domyślnie jedna): `columns-2`, `columns-3`
 * tag `capo` dodaje informację o tym na jakim progu umieścić kapodaster a `non-polish` dodaje oznaczenie o tym, że piosenka nie jest w języku polskim (pojawi się ono tez w spisie treści, przydatne do szukania czegoś do zaśpiewania ze znajomymi nie znającymi polskiego)
+
+Po generacji plików do druku wygląd może się trochę zmienić - dodawane są np marginesy na oprawę. Natomiast jest to tak rozwiązane że miejsca na treść będzie tyle samo, więc można założyć że jeżeli nie przelewa się na pliku z pojedynczą stroną to będzie tak też w wygenerowanych plikach. Pamiętaj o wywołaniu skryptu `format-songs` przed ostatecznym sprawdzeniem - dodaje on między innymi spacje między akordami, co może wpłynąć na rozjazd tekstu.
