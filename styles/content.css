@@ -213,9 +213,9 @@ body {
                 break-before: avoid-column;
                 -webkit-column-break-before: avoid;
 
-                .smaller-breaks & {
-                    content: "";
-                    margin-top: 3mm;
+                .smaller-breaks & + dt,
+                .smaller-breaks & + dt + dd {
+                    margin-top: -3mm;
                 }
             }
         }
