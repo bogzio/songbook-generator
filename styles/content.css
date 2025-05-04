@@ -127,7 +127,7 @@ body {
     }
 
     & header {
-        outline: 1px solid black;
+        outline: 0.25mm solid black;
         padding: 1mm 1.25mm 1mm 3mm;
         font-size: 1.2em;
         font-weight: bold;
@@ -145,8 +145,8 @@ body {
             text-transform: uppercase;
 
             &:before {
-                content: "\2013\00a0";
-                margin: 0 4px;
+                content: "\2013";
+                margin: 0 2mm;
             }
         }
 
@@ -155,7 +155,7 @@ body {
             margin-left: auto;
 
             .tag {
-                border: 1px solid black;
+                border: 0.25mm solid black;
                 border-radius: 1mm;
                 padding: 0.5mm 1.5mm;
                 font-size: 0.85em;
@@ -261,7 +261,7 @@ body {
         .separator {
             flex-grow: 1;
             height: 0;
-            border-bottom: 1px dotted #a1a1a1;
+            border-bottom: 0.25mm dotted #a1a1a1;
             top: 50%;
         }
 
