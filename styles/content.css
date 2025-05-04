@@ -215,7 +215,7 @@ body {
 
                 .smaller-breaks & + dt,
                 .smaller-breaks & + dt + dd {
-                    margin-top: -3mm;
+                    margin-top: -2.5mm;
                 }
             }
         }
