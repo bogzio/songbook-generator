@@ -59,7 +59,7 @@ moj-maly-spiewniczek
             </span>
         </header>
         <div class="content-wrapper columns-2">
-            <dl class="content b1 smaller-breaks">
+            <dl class="content b1">
                 <dt>a B</dt>		<dd class="s1">Wlazł kotek na płotek</dd>
                 <dt>c D</dt>		<dd class="s2">i mruga</dd>
                 <dt>e F</dt>		<dd class="b1">ładna to piosenka</dd>
@@ -69,7 +69,6 @@ moj-maly-spiewniczek
 ```
 ## Klasy:
 * klasy do zmieniania rozmiarów, kiedy nie chcemy aby konkretne wiersze były łamane do kolejnej linijki: (`b` = bigger, `s` = smaller): `b1`, `b2`, `s1`, `s2`, `s3`, `s4` - czym wyższy numer tym bardziej tekst jest powiększony / pomniejszony.
-* klasa do zmniejszania odstępów `<br>` kiedy piosenka nie mieści się na wysokość a nie ma już łamanych wierszy: `smaller-breaks`
 * ustawianie na ile kolumn zostanie podzielona piosenka (domyślnie jedna): `columns-2`, `columns-3`
 * tag `capo` dodaje informację o tym na jakim progu umieścić kapodaster a `non-polish` dodaje oznaczenie o tym, że piosenka nie jest w języku polskim (pojawi się ono tez w spisie treści, przydatne do szukania czegoś do zaśpiewania ze znajomymi nie znającymi polskiego)
 

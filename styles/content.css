@@ -209,14 +209,9 @@ body {
                 -webkit-column-break-after: avoid;
             }
 
-            & br {
-                break-before: avoid-column;
-                -webkit-column-break-before: avoid;
-
-                .smaller-breaks & + dt,
-                .smaller-breaks & + dt + dd {
-                    margin-top: -2.5mm;
-                }
+            dt:empty,
+            dd:empty {
+                height: 2.5mm;
             }
         }
     }
