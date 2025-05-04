@@ -2,7 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const { JSDOM } = require('jsdom');
 const Config = require('../config.json');
-const { groupArray, getCommandLineArguments, getBookletOrder, getFormattedHTML, getSongbookConfig} = require("./utils");
+const { groupArray, getBookletOrder, getFormattedHTML, getSongbookConfig } = require("./utils");
+
 
 const getTocItemHTML = (tocItem) => `
 <div class="tocItem">
@@ -15,7 +16,7 @@ const getTocItemHTML = (tocItem) => `
 </div>
 `;
 
-const emptyTemplateFile = fs.readFileSync(path.join(Config.templatesDirectory, Config.emptyTemplate));
+const emptyTemplateFile = fs.readFileSync(path.join(__dirname, '..', Config.templatesDirectory, Config.emptyTemplate));
 const emptyTemplateDom = new JSDOM(emptyTemplateFile.toString());
 const emptyPage = emptyTemplateDom.window.document.querySelector('.page');
 
@@ -60,7 +61,7 @@ const getToc = (songsDirectory) => {
 
     toc.sort((a, b) => a[0].localeCompare(b[0]));
 
-    const tocTemplateFile = fs.readFileSync(path.join(Config.templatesDirectory, Config.tocTemplate));
+    const tocTemplateFile = fs.readFileSync(path.join(__dirname, '..', Config.templatesDirectory, Config.tocTemplate));
     const tocTemplateDom = new JSDOM(tocTemplateFile.toString());
 
     const pageElement = tocTemplateDom.window.document.querySelector('.page');
@@ -118,13 +119,7 @@ const getEndPages = (songbookPath) => {
     ]
 }
 
-const generate = () => {
-
-    const [songbookPath] = getCommandLineArguments();
-    if (!songbookPath) {
-        console.log('Usage: node .\\format-songs.js ..\\my-songs-repo');
-        return;
-    }
+const generateHtml = (songbookPath) => {
 
     const songsDirectory = path.join(path.normalize(songbookPath), Config.songsDirectory);
     const songbookConfig = getSongbookConfig(songbookPath);
@@ -139,14 +134,11 @@ const generate = () => {
     const missingPages = htmlParts.length % 2;
     const missingBookletPages = (htmlParts.length + endPages.length) % 4 - missingPages;
 
-    console.log('missingPages', missingPages)
-    console.log('missingBookletPages', missingBookletPages)
-
     htmlParts.push(...Array(missingPages).fill(getEmptyPageHTML()));
     htmlParts.push(...Array(missingBookletPages).fill(getEmptyPageHTML(true)));
     htmlParts.push(...endPages);
 
-    const indexTemplate = fs.readFileSync(path.join(Config.templatesDirectory, Config.indexTemplate));
+    const indexTemplate = fs.readFileSync(path.join(__dirname, '..', Config.templatesDirectory, Config.indexTemplate));
     const indexContent = indexTemplate.toString().replace('#content#', htmlParts.join('\n'));
 
     if (!fs.existsSync(path.join(path.normalize(songbookPath), Config.outputDirectory))) {
@@ -167,4 +159,4 @@ const generate = () => {
     fs.writeFileSync(path.join(path.normalize(songbookPath), Config.outputDirectory, Config.htmlBookletOutputFile), getFormattedHTML(indexDom));
 }
 
-generate();
+module.exports.generateHtml = generateHtml;

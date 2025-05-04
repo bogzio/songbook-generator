@@ -1,6 +1,11 @@
 {
-  "dependencies": {
-    "jsdom": "^22.1.0",
-    "puppeteer": "^24.7.2"
-  }
+    "name": "songbook-generator",
+    "dependencies": {
+        "commander": "^13.1.0",
+        "jsdom": "^22.1.0",
+        "puppeteer": "^24.7.2"
+    },
+    "bin": {
+        "songbook-generator": "./index.js"
+    }
 }

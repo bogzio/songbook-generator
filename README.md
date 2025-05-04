@@ -1,5 +1,5 @@
 # Instalacja
-Najpierw zainstaluj najnowszą wersję [Node.js](https://nodejs.org/en/download). Następnie otwórz konsolę w głównym katalogu `songbook-generator` i wykonaj polecenie `npm i`.
+Najpierw zainstaluj najnowszą wersję [Node.js](https://nodejs.org/en/download). Następnie otwórz konsolę w głównym katalogu `songbook-generator` i wykonaj polecenie `npm install` a następnie `npm link`. Od teraz możesz używać w konsoli globalnej komendy `songbook-generator`.
 
 # Struktura plików
 Katalogi ze śpiewnikami powinny być obok repozytorium `songbook-generator` ze względu na ścieżki do styli ustawione na sztywno:
@@ -13,34 +13,24 @@ Root
 ```
 
 # Skrypty
-Przykładowe wykonania zakładają że znajdujemy się w głównym katalogu `songbook-generator` w środowisku Windows:
+Skrypty należy wykonywać w głownym katalogu wybranego śpewnika. W razie problemów albo nieaktualnej dokumentacji można wywołać `songbook-generator help` albo `songbook-generator help nazwa-komendy`.
 
 ## dodawanie nowej strony
-dodaj nową stronę z dwoma piosenkami, pierwsza 2 kolumnowa, druga 1 kolumnowa:
 ```
-node .\scripts\add-page.js ..\moj-maly-spiewniczek 2 1
+songbook-generator add-page 2 1
 ```
+Doda nową stronę z odpowiednim numerem i dwoma piosenkami, pierwszą w layoucie 2-kolumnowym, drugą w 1-kolumnowym:
+
 
 ## formatowanie piosenek
-formatuje pliki html z piosenkami, porządkuje taby, dodaje spacje między akordami itp
 ```
-node .\scripts\format-songs.js ..\moj-maly-spiewniczek
+songbook-generator format-songs
 ```
+formatuje pliki html z piosenkami, porządkuje taby, dodaje spacje między akordami itp. Dobrze wykonywać na bieżąco, a na pewno przed commitem.
 
-## generowanie plików wynikowych
-generuj śpiewnik html:
+## generowanie gotowych śpiewników
 ```
-node .\scripts\generate-html.js ..\moj-maly-spiewniczek
-```
-
-generuj śpiewnik pdf (wcześniej należy wygenerować html, oraz nie należy mieć otwartego pliku generated.pdf w czytniku pdf):
-```
-node .\scripts\generate-pdf.js ..\moj-maly-spiewniczek
-```
-
-można wykonać oba polecenia jedno po drugim za pomocą tej komendy:
-```
-node .\scripts\generate-html.js ..\moj-maly-spiewniczek | node .\scripts\generate-pdf.js ..\moj-maly-spiewniczek
+songbook-generator generate
 ```
 
 powinny zostać wygenerowane takie pliki:
@@ -84,3 +74,6 @@ moj-maly-spiewniczek
 * tag `capo` dodaje informację o tym na jakim progu umieścić kapodaster a `non-polish` dodaje oznaczenie o tym, że piosenka nie jest w języku polskim (pojawi się ono tez w spisie treści, przydatne do szukania czegoś do zaśpiewania ze znajomymi nie znającymi polskiego)
 
 Po generacji plików do druku wygląd może się trochę zmienić - dodawane są np marginesy na oprawę. Natomiast jest to tak rozwiązane że miejsca na treść będzie tyle samo, więc można założyć że jeżeli nie przelewa się na pliku z pojedynczą stroną to będzie tak też w wygenerowanych plikach. Pamiętaj o wywołaniu skryptu `format-songs` przed ostatecznym sprawdzeniem - dodaje on między innymi spacje między akordami, co może wpłynąć na rozjazd tekstu.
+
+# TODO
+możliwe że w przyszłości zrobię z tego prywatny pakiet npm

@@ -31,8 +31,6 @@ module.exports.groupArray = (array, itemsInFirstGroup, itemsInNextGroups) => {
     return groups;
 }
 
-module.exports.getCommandLineArguments = () => process.argv.slice(2);
-
 module.exports.getBookletOrder = (originalIndex, pagesCount) => {
     const firstHalf = originalIndex < pagesCount / 2;
     const distanceFromEnd = firstHalf ? originalIndex : pagesCount - originalIndex;
