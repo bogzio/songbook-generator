@@ -21,13 +21,11 @@ const addPage = (songbookPath, columns) => {
     const songNode = songDom.window.document.querySelector('.song');
     const footerNode = songDom.window.document.querySelector('footer');
 
-    const content = '\n\n' + columns
+    pageNode.innerHTML = '\n\n' + columns
         .map(columnsCount => `\t\t${songNode.outerHTML.replace('columns-#', `columns-${columnsCount}`)}`)
         .join('\n\n')
         .concat('\n\n')
         .concat(`\t\t${footerNode.outerHTML}\n\n`);
-
-    pageNode.innerHTML = content;
 
     fs.writeFileSync(path.join(path.normalize(songbookPath), Config.songsDirectory, fileName), getFormattedHTML(songDom));
 }
