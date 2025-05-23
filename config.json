@@ -3,10 +3,8 @@
     "songsDirectory": "songs",
 
     "outputDirectory": "generated",
-    "htmlOutputFile": "output.html",
-    "htmlBookletOutputFile": "booklet.html",
-    "pdfOutputFile": "output.pdf",
-    "pdfBookletOutputFile": "booklet.pdf",
+    "songbookPrefix": "spiewnik",
+    "bookletPrefix": "spiewnik-booklet",
 
     "templatesDirectory": "templates",
     "tocTemplate": "toc.template.html",

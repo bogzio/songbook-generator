@@ -145,7 +145,8 @@ const generateHtml = (songbookPath) => {
         fs.mkdirSync(path.join(path.normalize(songbookPath), Config.outputDirectory));
     }
 
-    fs.writeFileSync(path.join(path.normalize(songbookPath), Config.outputDirectory, Config.htmlOutputFile), indexContent);
+    const htmlOutputFile = `${Config.songbookPrefix}-${songbookConfig.version}.html`;
+    fs.writeFileSync(path.join(path.normalize(songbookPath), Config.outputDirectory, htmlOutputFile), indexContent);
 
     const indexDom = new JSDOM(indexContent);
 
@@ -156,7 +157,12 @@ const generateHtml = (songbookPath) => {
         page.setAttribute('style', `order: ${getBookletOrder(index, pages.length)}`);
     });
 
-    fs.writeFileSync(path.join(path.normalize(songbookPath), Config.outputDirectory, Config.htmlBookletOutputFile), getFormattedHTML(indexDom));
+    const pagesCount = pages.length;
+    const songsCount = indexDom.window.document.querySelectorAll('.song').length;
+    console.log(`${songsCount} piosenek / ${pagesCount} stron / ${pagesCount / 4} kartek w booklecie`);
+
+    const htmlBookletOutputFile = `${Config.bookletPrefix}-${songbookConfig.version}.html`;
+    fs.writeFileSync(path.join(path.normalize(songbookPath), Config.outputDirectory, htmlBookletOutputFile), getFormattedHTML(indexDom));
 }
 
 module.exports.generateHtml = generateHtml;
