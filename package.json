@@ -1,5 +1,10 @@
 {
     "name": "songbook-generator",
+    "description": "CLI tool to generate printable songbooks from HTML templates",
+    "author": "bogzio",
+    "license": "GPL-3.0",
+    "version": "1.0.1",
+    "preferGlobal": true,
     "dependencies": {
         "commander": "^13.1.0",
         "jsdom": "^22.1.0",
@@ -7,5 +12,13 @@
     },
     "bin": {
         "songbook-generator": "./index.js"
-    }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/bogzio/songbook-generator.git"
+    },
+    "bugs": {
+        "url": "https://github.com/bogzio/songbook-generator/issues"
+    },
+    "homepage": "https://github.com/bogzio/songbook-generator#readme"
 }

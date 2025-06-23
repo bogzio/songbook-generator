@@ -1,5 +1,5 @@
 # Instalacja
-Najpierw zainstaluj najnowszą wersję [Node.js](https://nodejs.org/en/download). Następnie otwórz konsolę w głównym katalogu `songbook-generator` i wykonaj polecenie `npm install` a następnie `npm link`. Od teraz możesz używać w konsoli globalnej komendy `songbook-generator`.
+Najpierw zainstaluj najnowszą wersję [Node.js](https://nodejs.org/en/download). Następnie otwórz konsolę i wykonaj polecenie `npm i -g songbook-generator`. Od teraz możesz używać w konsoli globalnej komendy `songbook-generator`.
 
 # Struktura plików
 Katalogi ze śpiewnikami powinny być obok repozytorium `songbook-generator` ze względu na ścieżki do styli ustawione na sztywno:
@@ -74,5 +74,15 @@ moj-maly-spiewniczek
 
 Po generacji plików do druku wygląd może się trochę zmienić - dodawane są np marginesy na oprawę. Natomiast jest to tak rozwiązane że miejsca na treść będzie tyle samo, więc można założyć że jeżeli nie przelewa się na pliku z pojedynczą stroną to będzie tak też w wygenerowanych plikach. Pamiętaj o wywołaniu skryptu `format-songs` przed ostatecznym sprawdzeniem - dodaje on między innymi spacje między akordami, co może wpłynąć na rozjazd tekstu.
 
-# TODO
-możliwe że w przyszłości zrobię z tego prywatny pakiet npm
+## Licencja czcionek
+
+Projekt zawiera czcionki:
+
+- **Noto Sans** – objęta licencją [SIL Open Font License 1.1](https://scripts.sil.org/OFL)
+- **Raleway** – objęta licencją [SIL Open Font License 1.1](https://scripts.sil.org/OFL)
+
+Czcionki znajdują się w katalogu `styles/fonts/`, a ich oryginalne licencje zostały dołączone w podkatalogach:
+- `styles/fonts/notosans/OFL.txt`
+- `styles/fonts/raleway/OFL.txt`
+
+Czcionki te **nie podlegają licencji GPL-3.0** stosowanej w pozostałej części projektu.

@@ -1,36 +1,36 @@
 @font-face {
     font-family: "Raleway";
-    src: url("fonts/Raleway-VariableFont_wght.ttf");
+    src: url("fonts/raleway/Raleway-VariableFont_wght.ttf");
 }
 
 @font-face {
     font-family: "Raleway";
     font-style: italic;
-    src: url("fonts/Raleway-Italic-VariableFont_wght.ttf");
+    src: url("fonts/raleway/Raleway-Italic-VariableFont_wght.ttf");
 }
 
 @font-face {
     font-family: "NotoSans";
-    src: url("fonts/NotoSans-Regular.ttf");
+    src: url("fonts/notosans/NotoSans-Regular.ttf");
 }
 
 @font-face {
     font-family: "NotoSans";
     font-style: italic;
-    src: url("fonts/NotoSans-Italic.ttf");
+    src: url("fonts/notosans/NotoSans-Italic.ttf");
 }
 
 @font-face {
     font-family: "NotoSans";
     font-weight: bold;
-    src: url("fonts/NotoSans-Bold.ttf");
+    src: url("fonts/notosans/NotoSans-Bold.ttf");
 }
 
 @font-face {
     font-family: "NotoSans";
     font-weight: bold;
     font-style: italic;
-    src: url("fonts/NotoSans-BoldItalic.ttf");
+    src: url("fonts/notosans/NotoSans-BoldItalic.ttf");
 }
 
 :root {
