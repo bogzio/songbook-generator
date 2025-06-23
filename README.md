@@ -1,5 +1,7 @@
 Narzędzie generujące śpiewnik gitarowy w pdf-ie z repozytorium łatwo edytowalnych plików w formacie html.
 
+![Przykładowy wydrukowany śpiewnik](preview.jpg)
+
 # Instalacja
 Najpierw zainstaluj najnowszą wersję [Node.js](https://nodejs.org/en/download). Następnie otwórz konsolę i wykonaj polecenie `npm i -g songbook-generator`. Od teraz możesz używać w konsoli globalnej komendy `songbook-generator`.
 
