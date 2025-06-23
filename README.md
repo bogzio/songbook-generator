@@ -1,8 +1,13 @@
+Narzędzie generujące śpiewnik gitarowy w pdf-ie z repozytorium łatwo edytowalnych plików w formacie html.
+
 # Instalacja
 Najpierw zainstaluj najnowszą wersję [Node.js](https://nodejs.org/en/download). Następnie otwórz konsolę i wykonaj polecenie `npm i -g songbook-generator`. Od teraz możesz używać w konsoli globalnej komendy `songbook-generator`.
 
-# Skrypty
-Skrypty należy wykonywać w głownym katalogu wybranego śpewnika. W razie problemów albo nieaktualnej dokumentacji można wywołać `songbook-generator help` albo `songbook-generator help nazwa-komendy`.
+# Przykładowy śpiewnik
+Przykładowy śpiewnik z wymaganą strukturą plików i przykładami użycia można znaleźć w repozytorium  [sample-songbook](https://github.com/bogzio/sample-songbook).
+
+# Komendy
+Komendy należy wykonywać w głownym katalogu wybranego śpewnika. W razie problemów albo nieaktualnej dokumentacji można wywołać `songbook-generator help` albo `songbook-generator help nazwa-komendy`.
 
 ## dodawanie nowej strony
 ```
@@ -26,12 +31,12 @@ powinny zostać wygenerowane takie pliki:
 ```
 moj-maly-spiewniczek
 └── generated
-    ├── output.html
-    ├── output.pdf
-    ├── booklet.html
-    └── booklet.pdf
+    ├── spiewnik-1.4.html
+    ├── spiewnik-1.4.pdf
+    ├── spiewnik-booklet-1.4.html
+    └── spiewnik-booklet-1.4.pdf
 ```
-`output` to pliki do zwykłego druku w formacie A5, `booklet` to pliki które po wydrukowaniu w formacie A4 (orientacja pozioma, obracanie po krótszym boku), przecinamy w połowie i składamy na pół w tej kolejności w której są. Ułatwia to druk na zwykłych kartkach A4.
+`spiewnik` to pliki do zwykłego druku w formacie A5, `spiewnik-booklet` to pliki które po wydrukowaniu w formacie A4 (orientacja pozioma, obracanie po krótszym boku), przecinamy w połowie i składamy na pół w tej kolejności w której są. Ułatwia to druk na zwykłych kartkach A4. Do nazwy pliku jest doklejana wersja konfigurowalna w pliku `songbook-config.json` w katalogu ze śpiewnikem.
 
 # Struktura piosenki i style
 
