@@ -87,16 +87,30 @@ body {
     gap: 1mm;
 
     .tag {
-        display: flex;
-        align-items: center;
 
-        &.capo:before {
-            content: "kapo:";
-            margin-right: 1mm;
+        &.capo {
+            order: 1;
+
+            &:before {
+                content: "kapo:";
+                margin-right: 0.5mm;
+            }
         }
 
-        &.non-polish:before {
-            content: '\2691';
+        &.non-polish {
+            order: 2;
+
+            &:before {
+                content: '\2691';
+            }
+        }
+
+        &.new {
+            order: 3;
+
+            &:before {
+                content: '\2731';
+            }
         }
     }
 }
@@ -153,14 +167,12 @@ body {
         .tags {
             height: calc(100% - 1.5mm);
             margin-left: auto;
+            display: flex;
+            align-items: center;
 
             .tag {
-                border: 0.25mm solid black;
-                border-radius: 1mm;
-                padding: 0.5mm 1.5mm;
+                padding: 0.5mm 0.7mm;
                 font-size: 0.85em;
-                display: flex;
-                align-items: center;
                 overflow: hidden;
             }
         }
