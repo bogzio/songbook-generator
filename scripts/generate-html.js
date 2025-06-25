@@ -10,6 +10,7 @@ const getTocItemHTML = (tocItem) => `
     <div class="name">${tocItem[0]}</div>
     <div class="tags">
         ${tocItem[2] ? '<div class="tag non-polish"></div>' : ''}
+        ${tocItem[3] ? '<div class="tag new"></div>' : ''}
     </div>
     <div class="separator"></div>
     <div class="pageNumber">${tocItem[1]}</div>
@@ -55,7 +56,8 @@ const getToc = (songsDirectory) => {
             const nameElements = songElement.querySelectorAll('.title, .author');
             const name = Array.from(nameElements).map(element => element.innerHTML).join(' – ');
             const nonPolish = !!songElement.querySelector('.non-polish');
-            toc.push([name, pageNumber, nonPolish]);
+            const isNew = !!songElement.querySelector('.new');
+            toc.push([name, pageNumber, nonPolish, isNew]);
         });
     });
 
