@@ -1,8 +1,17 @@
 const path = require('path');
+const fs = require('fs');
 const puppeteer = require('puppeteer');
 const Config = require('../config.json');
-const { getSongbookConfig } = require("./utils");
+const { getSongbookConfig } = require('./utils');
 
+
+/**
+ * Generates single pdf file
+ * @param {string} inputFile
+ * @param {string} outputFile
+ * @param options - puppeteer pdf function options
+ * @returns {Promise<void>}
+ */
 const generateFile = async (inputFile, outputFile, options) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -15,7 +24,13 @@ const generateFile = async (inputFile, outputFile, options) => {
     await browser.close();
 }
 
-const generatePdf = async (songbookPath) => {
+/**
+ * Generates pdf files from html versions
+ * @param {string} songbookPath - path to the songbook root directory
+ * @param {boolean} deleteHtmlFiles - delete html files after pdf generation
+ * @returns {Promise<void>}
+ */
+module.exports.generatePdf = async (songbookPath, deleteHtmlFiles) => {
     const outputDirectory = path.join(path.normalize(songbookPath), Config.outputDirectory);
     const songbookConfig = getSongbookConfig(songbookPath);
     const htmlOutputFile = `${Config.songbookPrefix}-${songbookConfig.version}.html`;
@@ -41,7 +56,10 @@ const generatePdf = async (songbookPath) => {
             },
         ),
     ])
-}
 
-module.exports.generatePdf = generatePdf;
+    if (deleteHtmlFiles) {
+        fs.unlinkSync(path.join(outputDirectory, htmlOutputFile));
+        fs.unlinkSync(path.join(outputDirectory, htmlBookletOutputFile));
+    }
+}
 

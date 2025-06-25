@@ -30,7 +30,7 @@ program
 program
     .command('generate')
     .summary('generuje śpiewnik')
-    .addArgument(new Argument('[what]', 'what to generate').choices(['pdf', 'html', 'all']).default('all'))
+    .addArgument(new Argument('[what]', 'what to generate').choices(['pdf', 'html', 'all']).default('pdf'))
     .action(async (what) => {
 
         if (what === 'html' || what === 'all') {
@@ -41,7 +41,7 @@ program
 
         if (what === 'pdf' || what === 'all') {
             console.log('generowanie pdf...')
-            await generatePdf(process.cwd());
+            await generatePdf(process.cwd(), what === 'pdf');
             console.log('wygenerowano pdf!');
         }
 
