@@ -225,6 +225,7 @@ body {
         align-items: center;
         justify-content: space-between;
         font-size: 3.2mm;
+        padding-top: 2mm;
 
         .left & {
             flex-direction: row-reverse;
