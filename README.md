@@ -11,31 +11,28 @@ Przykładowy śpiewnik z wymaganą strukturą plików i przykładami użycia mo�
 # Komendy
 Komendy należy wykonywać w głownym katalogu wybranego śpewnika. W razie problemów albo nieaktualnej dokumentacji można wywołać `songbook-generator help` albo `songbook-generator help nazwa-komendy`.
 
-## dodawanie nowej strony
-```
+```bash
+# Dodaje nową stronę z odpowiednim numerem i dwoma piosenkami,
+# pierwszą w layoucie 2-kolumnowym, drugą w 1-kolumnowym:
 songbook-generator add-page 2 1
-```
-Doda nową stronę z odpowiednim numerem i dwoma piosenkami, pierwszą w layoucie 2-kolumnowym, drugą w 1-kolumnowym:
 
-
-## formatowanie piosenek
-```
+# formatuje pliki html z piosenkami, porządkuje taby, dodaje spacje między akordami itp.
+# Dobrze wykonywać na bieżąco, a na pewno przed commitem.
 songbook-generator format-songs
-```
-formatuje pliki html z piosenkami, porządkuje taby, dodaje spacje między akordami itp. Dobrze wykonywać na bieżąco, a na pewno przed commitem.
 
-## generowanie gotowych śpiewników
-```
+# Optymalizuje rozmieszczenie piosenek na stronach
+# zawartość katalogu songs zostanie nadpisana!
+songbook-generator optimize-order
+
+# Generuje śpiewniki w formacie pdf
 songbook-generator generate
 ```
 
-powinny zostać wygenerowane takie pliki:
+po generacji powinny zostać wygenerowane takie pliki:
 ```
 moj-maly-spiewniczek
 └── generated
-    ├── spiewnik-1.4.html
     ├── spiewnik-1.4.pdf
-    ├── spiewnik-booklet-1.4.html
     └── spiewnik-booklet-1.4.pdf
 ```
 `spiewnik` to pliki do zwykłego druku w formacie A5, `spiewnik-booklet` to pliki które po wydrukowaniu w formacie A4 (orientacja pozioma, obracanie po krótszym boku), przecinamy w połowie i składamy na pół w tej kolejności w której są. Ułatwia to druk na zwykłych kartkach A4. Do nazwy pliku jest doklejana wersja konfigurowalna w pliku `songbook-config.json` w katalogu ze śpiewnikem.
@@ -43,7 +40,7 @@ moj-maly-spiewniczek
 # Struktura piosenki i style
 
 ## Przykładowa struktura:
-```
+```html
 <div class="page">
     <div class="song">
         <header>
@@ -70,7 +67,7 @@ moj-maly-spiewniczek
 
 Po generacji plików do druku wygląd może się trochę zmienić - dodawane są np marginesy na oprawę. Natomiast jest to tak rozwiązane że miejsca na treść będzie tyle samo, więc można założyć że jeżeli nie przelewa się na pliku z pojedynczą stroną to będzie tak też w wygenerowanych plikach. Pamiętaj o wywołaniu skryptu `format-songs` przed ostatecznym sprawdzeniem - dodaje on między innymi spacje między akordami, co może wpłynąć na rozjazd tekstu.
 
-## Licencja czcionek
+# Licencja czcionek
 
 Projekt zawiera czcionki:
 
