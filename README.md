@@ -24,7 +24,7 @@ Komendy należy wykonywać w głownym katalogu wybranego śpewnika. W razie prob
 # pierwszą w layoucie 2-kolumnowym, drugą w 1-kolumnowym:
 songbook-generator add-page 2 1
 
-# formatuje pliki html z piosenkami, porządkuje taby, dodaje spacje między akordami itp.
+# formatuje pliki html z piosenkami, porządkuje taby, porządkuje spacje między akordami itp.
 # Dobrze wykonywać na bieżąco, a na pewno przed commitem.
 songbook-generator format-songs
 
@@ -71,7 +71,9 @@ moj-maly-spiewniczek
 ## Klasy:
 * klasy do zmieniania rozmiarów, kiedy nie chcemy aby konkretne wiersze były łamane do kolejnej linijki: (`b` = bigger, `s` = smaller): `b1`, `b2`, `s1`, `s2`, `s3`, `s4` - czym wyższy numer tym bardziej tekst jest powiększony / pomniejszony.
 * ustawianie na ile kolumn zostanie podzielona piosenka (domyślnie jedna): `columns-2`, `columns-3`
-* tag `capo` dodaje informację o tym na jakim progu umieścić kapodaster a `non-polish` dodaje oznaczenie o tym, że piosenka nie jest w języku polskim (pojawi się ono tez w spisie treści, przydatne do szukania czegoś do zaśpiewania ze znajomymi nie znającymi polskiego)
+* tag `capo` dodaje informację o tym na jakim progu umieścić kapodaster
+* tag `new` że jest to nowo dodana piosenka (na razie dodaje przy niej symbol gwiazdki a w przyszłości komenda `optimize-order` będzie miała możliwość wyboru czy przesuwać między stronami jedynie nowe piosenki)
+* tag `non-polish` dodaje oznaczenie o tym, że piosenka nie jest w języku polskim (pojawi się ono tez w spisie treści, przydatne do szukania czegoś do zaśpiewania ze znajomymi nie znającymi polskiego)
 
 Po generacji plików do druku wygląd może się trochę zmienić - dodawane są np marginesy na oprawę. Natomiast jest to tak rozwiązane że miejsca na treść będzie tyle samo, więc można założyć że jeżeli nie przelewa się na pliku z pojedynczą stroną to będzie tak też w wygenerowanych plikach. Pamiętaj o wywołaniu skryptu `format-songs` przed ostatecznym sprawdzeniem - dodaje on między innymi spacje między akordami, co może wpłynąć na rozjazd tekstu.
 
