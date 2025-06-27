@@ -92,8 +92,15 @@ body {
             order: 1;
 
             &:before {
-                content: "kapo:";
+                content: "≡❘≡";
                 margin-right: 0.5mm;
+                vertical-align: middle;
+                width: 10px;
+                display: inline-flex;
+                overflow: hidden;
+                justify-content: center;
+                transform: rotate(62deg);
+                white-space: nowrap;
             }
         }
 
