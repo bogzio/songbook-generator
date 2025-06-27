@@ -15,10 +15,7 @@ const formatSongs = (songbookPath) => {
         // usuwanie spacji między akordami
         dom.window.document.querySelectorAll('dt').forEach(dtElement => {
             dtElement.innerHTML = dtElement.innerHTML
-                .replace(/&[^;]+;/g, '')
-                .replace(/\s/g, '')
-                .split(/(?=[\/(abcdefghABCDEFGH])/)
-                .join(' ')
+                .replace(/\s+/g, ' ')
                 .replaceAll('( ', '(')
                 .replaceAll(' / ', '/');
         });
