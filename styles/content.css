@@ -93,7 +93,7 @@ body {
 
             &:before {
                 content: "≡❘≡";
-                margin-right: 0.5mm;
+                margin-right: 0.2mm;
                 vertical-align: middle;
                 width: 10px;
                 display: inline-flex;
