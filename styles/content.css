@@ -116,7 +116,7 @@ body {
             order: 3;
 
             &:before {
-                content: '\2731';
+                content: '\2726';
             }
         }
     }
