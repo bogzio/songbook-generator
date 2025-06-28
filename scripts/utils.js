@@ -13,24 +13,6 @@ module.exports.getFormattedHTML = (dom) => dom.window.document.documentElement.o
     .replace('<html lang="pl"><head>', '<html lang="pl">\n<head>')
     .replace(/<\/div>\s+<\/body><\/html>/, '</div>\n</body>\n</html>');
 
-/**
- * Dzieli tablicę na grupy o zadanej liczbie elementów
- * @param {any[]} array
- * @param {number} itemsInFirstGroup
- * @param {number} itemsInNextGroups
- * @returns any[][]
- */
-module.exports.groupArray = (array, itemsInFirstGroup, itemsInNextGroups) => {
-    const groups = [ array.slice(0, itemsInFirstGroup) ];
-    const otherItemsCount = array.length - itemsInFirstGroup;
-    const otherPagesCount = Math.ceil(otherItemsCount / itemsInNextGroups);
-    for (let i = 0; i < otherPagesCount; i++) {
-        const start = itemsInFirstGroup + i * itemsInNextGroups;
-        groups.push(array.slice(start, start + itemsInNextGroups));
-    }
-    return groups;
-}
-
 module.exports.getBookletOrder = (originalIndex, pagesCount) => {
     const firstHalf = originalIndex < pagesCount / 2;
     const distanceFromEnd = firstHalf ? originalIndex : pagesCount - originalIndex;

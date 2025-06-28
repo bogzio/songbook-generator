@@ -2,11 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const { JSDOM } = require('jsdom');
 const Config = require('../config.json');
-const { groupArray, getBookletOrder, getFormattedHTML, getSongbookConfig } = require("./utils");
-
+const { getBookletOrder, getFormattedHTML, getSongbookConfig } = require("./utils");
 
 const getTocItemHTML = (tocItem) => `
-<div class="tocItem">
+<div class="tocItem ${tocItem[4] ? 'isNewLetter' : ''}">
     <div class="name">${tocItem[0]}</div>
     <div class="tags">
         ${tocItem[2] ? '<div class="tag non-polish"></div>' : ''}
@@ -68,14 +67,24 @@ const getToc = (songsDirectory) => {
 
     const pageElement = tocTemplateDom.window.document.querySelector('.page');
 
-    const groups = groupArray(toc, Config.tocItemsCountFirstPage, Config.tocItemsCountNextPages);
+    const groups = [[[...toc[0], false]]];
+    let currentGroupSize = 1;
+
+    for (let i = 1; i < toc.length; i++) {
+        const isNewLetter = toc[i][0].charAt(0) !== toc[i-1][0].charAt(0);
+        const itemSize = isNewLetter ? Config.tocItemNewLetterSizeFactor : 1;
+        if (currentGroupSize + itemSize > Config.tocItemsCountPerPage) {
+            currentGroupSize = 0;
+            groups.push([]);
+        }
+        currentGroupSize += itemSize;
+        groups.at(-1).push([...toc[i], isNewLetter]);
+    }
 
     const pages = groups.map((group, index) => {
-        const header = index === 0 ? `<header>${Config.tocHeader}</header>` : undefined;
-        const items = group.map(getTocItemHTML).join('\n');
         pageElement.classList.remove('left', 'right');
         pageElement.classList.add(index %2 === 0 ? 'right' : 'left');
-        return pageElement.outerHTML.replace('#content#', [header, items].filter(Boolean).join('\n'));
+        return pageElement.outerHTML.replace('#content#', group.map(getTocItemHTML).join('\n'));
     })
 
     if (pages.length % 2 === 1) {

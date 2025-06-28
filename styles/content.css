@@ -273,6 +273,17 @@ body {
         justify-content: space-between;
         line-height: 1.5em;
 
+        &.isNewLetter {
+            margin-top: 0.5em;
+        }
+
+        &.isNewLetter,
+        &:first-child {
+            .name:first-letter {
+                font-weight: bold;
+            }
+        }
+
         .separator {
             flex-grow: 1;
             height: 0;
