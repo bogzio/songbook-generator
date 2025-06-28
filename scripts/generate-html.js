@@ -67,7 +67,7 @@ const getToc = (songsDirectory) => {
 
     const pageElement = tocTemplateDom.window.document.querySelector('.page');
 
-    const groups = [[[...toc[0], false]]];
+    const groups = [[[...toc[0], true]]];
     let currentGroupSize = 1;
 
     for (let i = 1; i < toc.length; i++) {
