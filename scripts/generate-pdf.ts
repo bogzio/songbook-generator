@@ -1,8 +1,9 @@
-const path = require('path');
-const fs = require('fs');
-const puppeteer = require('puppeteer');
-const Config = require('../config.json');
-const { getSongbookConfig } = require('./utils');
+import path from 'path';
+import fs from 'fs';
+import puppeteer from 'puppeteer';
+
+import { Config } from '../config.ts';
+import { getSongbookConfig } from './utils.ts';
 
 
 /**
@@ -30,7 +31,7 @@ const generateFile = async (inputFile, outputFile, options) => {
  * @param {boolean} deleteHtmlFiles - delete html files after pdf generation
  * @returns {Promise<void>}
  */
-module.exports.generatePdf = async (songbookPath, deleteHtmlFiles) => {
+export const generatePdf = async (songbookPath, deleteHtmlFiles) => {
     const outputDirectory = path.join(path.normalize(songbookPath), Config.outputDirectory);
     const songbookConfig = getSongbookConfig(songbookPath);
     const htmlOutputFile = `${Config.songbookPrefix}-${songbookConfig.version}.html`;

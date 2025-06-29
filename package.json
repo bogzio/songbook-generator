@@ -3,8 +3,12 @@
     "description": "CLI tool to generate printable songbooks from HTML templates",
     "author": "bogzio",
     "license": "GPL-3.0",
-    "version": "1.1.12",
+    "version": "1.2.1",
     "preferGlobal": true,
+    "type": "module",
+    "engines": {
+        "node": ">=23.6.0"
+    },
     "dependencies": {
         "@inquirer/prompts": "^7.5.3",
         "commander": "^13.1.0",

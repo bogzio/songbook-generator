@@ -1,17 +1,22 @@
-const fs = require('fs');
-const path = require('path');
-const { JSDOM } = require('jsdom');
-const Config = require('../config.json');
-const { getFormattedHTML} = require('./utils')
+import fs from 'fs';
+import path, { dirname } from 'path';
+import { JSDOM } from 'jsdom';
+import { fileURLToPath } from 'url';
+
+import { Config } from '../config.ts';
+import { getFormattedHTML } from './utils.ts';
 
 
-const addPageWithSongs = (songbookPath, getSongs) => {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+export const addPageWithSongs = (songbookPath, getSongs) => {
     const lastPage = fs.readdirSync(path.join(path.normalize(songbookPath), Config.songsDirectory))
         .map(fileName => fileName.replace('.html', ''))
         .toSorted()
         .at(-1);
 
-    const fileName = String(parseInt(lastPage || 0, 10) + 1).padStart(3, '0') + '.html';
+    const fileName = String(parseInt(lastPage || '0', 10) + 1).padStart(3, '0') + '.html';
 
     const songTemplate = fs.readFileSync(path.join(__dirname, '..', Config.templatesDirectory, Config.songTemplate));
     const songDom = new JSDOM(songTemplate.toString())
@@ -28,13 +33,9 @@ const addPageWithSongs = (songbookPath, getSongs) => {
     fs.writeFileSync(path.join(path.normalize(songbookPath), Config.songsDirectory, fileName), getFormattedHTML(songDom));
 }
 
-module.exports.addPageWithSongs = addPageWithSongs;
-
-const addPage = (songbookPath, columns) => {
+export const addPage = (songbookPath, columns) => {
     addPageWithSongs(
         songbookPath,
         songNode => columns.map(columnsCount => `\t\t${songNode.outerHTML.replace('columns-#', `columns-${columnsCount}`)}`),
     );
 }
-
-module.exports.addPage = addPage;

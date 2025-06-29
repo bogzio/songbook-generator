@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 
-const { Command, Argument } = require('commander');
-const { confirm } = require('@inquirer/prompts');
-const { addPage } = require("./scripts/add-page");
-const { formatSongs } = require("./scripts/format-songs");
-const { generateHtml } = require("./scripts/generate-html");
-const { generatePdf } = require("./scripts/generate-pdf");
-const { optimizeOrder } = require("./scripts/optimize-order");
+import { Command, Argument } from 'commander';
+import { confirm } from '@inquirer/prompts';
+
+import { addPage } from './scripts/add-page.ts';
+import { formatSongs } from './scripts/format-songs.ts';
+import { generateHtml } from './scripts/generate-html.ts';
+import { generatePdf } from './scripts/generate-pdf.ts';
+import { optimizeOrder } from './scripts/optimize-order.ts';
+
 
 const program = new Command();
 

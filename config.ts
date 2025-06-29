@@ -1,0 +1,19 @@
+export const Config = {
+    pagesDirectory: "content",
+    songsDirectory: "songs",
+
+    outputDirectory: "generated",
+    songbookPrefix: "spiewnik",
+    bookletPrefix: "spiewnik-booklet",
+
+    templatesDirectory: "templates",
+    tocTemplate: "toc.template.html",
+    indexTemplate: "index.template.html",
+    songTemplate: "song.template.html",
+    emptyTemplate: "empty.template.html",
+
+    tocItemsCountPerPage: 44,
+    tocItemNewLetterSizeFactor: 1.333,
+
+    songbookConfigFile: "songbook-config.json"
+}

@@ -1,8 +1,14 @@
-const fs = require('fs');
-const path = require('path');
-const { JSDOM } = require('jsdom');
-const Config = require('../config.json');
-const { getBookletOrder, getFormattedHTML, getSongbookConfig } = require("./utils");
+import fs from 'fs';
+import path, { dirname } from 'path';
+import { JSDOM } from 'jsdom';
+import { fileURLToPath } from 'url';
+
+import { Config } from '../config.ts';
+import { getBookletOrder, getFormattedHTML, getSongbookConfig } from './utils.ts';
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const getTocItemHTML = (tocItem) => `
 <div class="tocItem ${tocItem[4] ? 'isNewLetter' : ''}">
@@ -53,7 +59,7 @@ const getToc = (songsDirectory) => {
 
         dom.window.document.querySelectorAll('.song').forEach(songElement => {
             const nameElements = songElement.querySelectorAll('.title, .author');
-            const name = Array.from(nameElements).map(element => element.innerHTML).join(' – ');
+            const name = Array.from(nameElements).map((element: HTMLElement) => element.innerHTML).join(' – ');
             const nonPolish = !!songElement.querySelector('.non-polish');
             const isNew = !!songElement.querySelector('.new');
             toc.push([name, pageNumber, nonPolish, isNew]);
@@ -130,7 +136,7 @@ const getEndPages = (songbookPath) => {
     ]
 }
 
-const generateHtml = (songbookPath) => {
+export const generateHtml = (songbookPath) => {
 
     const songsDirectory = path.join(path.normalize(songbookPath), Config.songsDirectory);
     const songbookConfig = getSongbookConfig(songbookPath);
@@ -139,7 +145,7 @@ const generateHtml = (songbookPath) => {
 
     htmlParts.push(...getTitlePages(songbookPath));
     htmlParts.push(...getToc(songsDirectory));
-    htmlParts.push(...getSongs(songsDirectory, songbookConfig, htmlParts.length));
+    htmlParts.push(...getSongs(songsDirectory, songbookConfig));
 
     const endPages = getEndPages(songbookPath);
     const missingPages = htmlParts.length % 2;
@@ -175,5 +181,3 @@ const generateHtml = (songbookPath) => {
     const htmlBookletOutputFile = `${Config.bookletPrefix}-${songbookConfig.version}.html`;
     fs.writeFileSync(path.join(path.normalize(songbookPath), Config.outputDirectory, htmlBookletOutputFile), getFormattedHTML(indexDom));
 }
-
-module.exports.generateHtml = generateHtml;

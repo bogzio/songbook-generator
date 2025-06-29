@@ -1,8 +1,9 @@
-const path = require('path');
-const puppeteer = require('puppeteer');
-const Config = require('../config.json');
-const fs = require("fs");
-const { addPageWithSongs} = require("./add-page");
+import path from 'path';
+import fs from 'fs';
+import puppeteer from 'puppeteer';
+
+import { Config } from '../config.ts';
+import { addPageWithSongs} from './add-page.ts';
 
 
 const getPageHeight = async (pagePath, page) => {
@@ -70,7 +71,7 @@ const removePages = (songbookPath, fileNames) => {
     }
 }
 
-const optimizeOrder = async (songbookPath) => {
+export const optimizeOrder = async (songbookPath) => {
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -91,6 +92,4 @@ const optimizeOrder = async (songbookPath) => {
 
     await browser.close();
 }
-
-module.exports.optimizeOrder = optimizeOrder;
 

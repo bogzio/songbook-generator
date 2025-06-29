@@ -1,11 +1,12 @@
-const fs = require('fs');
-const path = require('path');
-const { JSDOM } = require('jsdom');
-const Config = require('../config.json');
-const { toTitleCase, getFormattedHTML } = require('./utils')
+import fs from 'fs';
+import path from 'path';
+import { JSDOM } from 'jsdom';
+
+import { Config } from '../config.ts';
+import { toTitleCase, getFormattedHTML } from './utils.ts';
 
 
-const formatSongs = (songbookPath) => {
+export const formatSongs = (songbookPath) => {
 
     fs.readdirSync(path.join(path.normalize(songbookPath), Config.songsDirectory)).forEach(fileName => {
         const filePath = path.join(path.normalize(songbookPath), Config.songsDirectory, fileName);
@@ -22,7 +23,7 @@ const formatSongs = (songbookPath) => {
 
         // dostosowanie tabów
         dom.window.document.querySelectorAll('.content').forEach(song => {
-            const maxTabs = Math.ceil(Math.max(...Array.from(song.querySelectorAll('dt')).map(dt => dt.outerHTML.length)) / 4);
+            const maxTabs = Math.ceil(Math.max(...Array.from(song.querySelectorAll('dt')).map((dt: HTMLElement) => dt.outerHTML.length)) / 4);
             song.innerHTML = song.innerHTML
                 .split('\n')
                 .map(row => {
@@ -51,5 +52,3 @@ const formatSongs = (songbookPath) => {
         fs.writeFileSync(filePath, getFormattedHTML(dom));
     });
 }
-
-module.exports.formatSongs = formatSongs;
