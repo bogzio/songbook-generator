@@ -10,7 +10,7 @@ import { getFormattedHTML } from './utils.ts';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export const addPageWithSongs = (songbookPath, getSongs) => {
+export const addPageWithSongs = (songbookPath: string, getSongs: (songNode: Element) => string[]) => {
     const lastPage = fs.readdirSync(path.join(path.normalize(songbookPath), Config.songsDirectory))
         .map(fileName => fileName.replace('.html', ''))
         .toSorted()
@@ -33,7 +33,7 @@ export const addPageWithSongs = (songbookPath, getSongs) => {
     fs.writeFileSync(path.join(path.normalize(songbookPath), Config.songsDirectory, fileName), getFormattedHTML(songDom));
 }
 
-export const addPage = (songbookPath, columns) => {
+export const addPage = (songbookPath: string , columns: number[]) => {
     addPageWithSongs(
         songbookPath,
         songNode => columns.map(columnsCount => `\t\t${songNode.outerHTML.replace('columns-#', `columns-${columnsCount}`)}`),

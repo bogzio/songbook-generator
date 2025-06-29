@@ -4,13 +4,15 @@ import { JSDOM } from 'jsdom';
 import { fileURLToPath } from 'url';
 
 import { Config } from '../config.ts';
+import type { SongbookConfigType, TocItemType } from '../types.js';
 import { getBookletOrder, getFormattedHTML, getSongbookConfig } from './utils.ts';
 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const getTocItemHTML = (tocItem) => `
+
+const getTocItemHTML = (tocItem: TocItemType) => `
 <div class="tocItem ${tocItem[4] ? 'isNewLetter' : ''}">
     <div class="name">${tocItem[0]}</div>
     <div class="tags">
@@ -26,12 +28,12 @@ const emptyTemplateFile = fs.readFileSync(path.join(__dirname, '..', Config.temp
 const emptyTemplateDom = new JSDOM(emptyTemplateFile.toString());
 const emptyPage = emptyTemplateDom.window.document.querySelector('.page');
 
-const getEmptyPageHTML = (isBookletOnly = false) => {
+const getEmptyPageHTML = (isBookletOnly: boolean = false) => {
     emptyPage.classList.toggle('booklet-only', isBookletOnly);
     return emptyPage.outerHTML;
 }
 
-const getTitlePages = (songbookPath) => {
+const getTitlePages = (songbookPath: string) => {
     const songbookConfig = getSongbookConfig(songbookPath);
     const titlePage = fs.readFileSync(path.join(songbookPath, songbookConfig.titlePageFile));
 
@@ -48,7 +50,7 @@ const getTitlePages = (songbookPath) => {
     ]
 }
 
-const getToc = (songsDirectory) => {
+const getToc = (songsDirectory: string) => {
     const toc = [];
 
     fs.readdirSync(songsDirectory).forEach(fileName => {
@@ -100,7 +102,7 @@ const getToc = (songsDirectory) => {
     return pages;
 }
 
-const getSongs = (songsDirectory, songbookConfig) => {
+const getSongs = (songsDirectory: string, songbookConfig: SongbookConfigType) => {
     const pages = [];
 
     fs.readdirSync(songsDirectory).forEach(fileName => {
@@ -110,7 +112,7 @@ const getSongs = (songsDirectory, songbookConfig) => {
         const page = dom.window.document.querySelector('.page');
 
         page.classList.add(pageNumber %2 === 0 ? 'left' : 'right');
-        page.querySelector('footer').innerHTML = pageNumber;
+        page.querySelector('footer').innerHTML = pageNumber.toString();
         page.querySelector('footer').dataset.extra = `${songbookConfig.footerExtra} ~ ${songbookConfig.version}`;
 
         pages.push(page.outerHTML);
@@ -119,7 +121,7 @@ const getSongs = (songsDirectory, songbookConfig) => {
     return pages;
 }
 
-const getEndPages = (songbookPath) => {
+const getEndPages = (songbookPath: string) => {
     const songbookConfig = getSongbookConfig(songbookPath);
     const endPage = fs.readFileSync(path.join(songbookPath, songbookConfig.endPageFile));
 
@@ -136,7 +138,7 @@ const getEndPages = (songbookPath) => {
     ]
 }
 
-export const generateHtml = (songbookPath) => {
+export const generateHtml = (songbookPath: string) => {
 
     const songsDirectory = path.join(path.normalize(songbookPath), Config.songsDirectory);
     const songbookConfig = getSongbookConfig(songbookPath);

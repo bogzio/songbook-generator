@@ -1,5 +1,7 @@
-export const Config = {
-    pagesDirectory: "content",
+import type { ConfigType } from './types.js';
+
+
+export const Config: ConfigType = {
     songsDirectory: "songs",
 
     outputDirectory: "generated",

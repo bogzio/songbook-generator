@@ -1,12 +1,13 @@
 import path from 'path';
 import fs from 'fs';
-import puppeteer from 'puppeteer';
+import puppeteer, { Page } from 'puppeteer';
 
 import { Config } from '../config.ts';
 import { addPageWithSongs} from './add-page.ts';
+import type { SongWithHeight } from '../types.js';
 
 
-const getPageHeight = async (pagePath, page) => {
+const getPageHeight = async (pagePath: string, page: Page): Promise<number> => {
     await page.goto(pagePath);
     return await page.$eval('.page', el => {
         const style = window.getComputedStyle(el);
@@ -15,7 +16,7 @@ const getPageHeight = async (pagePath, page) => {
     })
 }
 
-const getSongsMargin = async (songbookPath, fileNames, page) => {
+const getSongsMargin = async (songbookPath: string, fileNames: string[], page: Page): Promise<number> => {
     for (const fileName of fileNames) {
         const filePath = path.join(path.normalize(songbookPath), Config.songsDirectory, fileName);
         await page.goto(filePath);
@@ -29,7 +30,7 @@ const getSongsMargin = async (songbookPath, fileNames, page) => {
     return 0;
 }
 
-const getSongsHeights = async (songbookPath, fileNames, page) => {
+const getSongsHeights = async (songbookPath: string, fileNames: string[], page: Page): Promise<SongWithHeight[]> => {
     const heights = [];
     for (const fileName of fileNames) {
         const filePath = path.join(path.normalize(songbookPath), Config.songsDirectory, fileName);
@@ -42,7 +43,7 @@ const getSongsHeights = async (songbookPath, fileNames, page) => {
     return heights;
 }
 
-const orderSongs = (songs, songsMargin, pageHeight) => {
+const orderSongs = (songs: SongWithHeight[], songsMargin: number, pageHeight: number): SongWithHeight[][] => {
     const sorted = songs.toSorted((a, b) => b.height - a.height);
     const groups = [];
 
@@ -64,15 +65,14 @@ const orderSongs = (songs, songsMargin, pageHeight) => {
     return groups;
 }
 
-const removePages = (songbookPath, fileNames) => {
+const removePages = (songbookPath: string, fileNames: string[]) => {
     for (const fileName of fileNames) {
         const filePath = path.join(path.normalize(songbookPath), Config.songsDirectory, fileName);
         fs.unlinkSync(filePath);
     }
 }
 
-export const optimizeOrder = async (songbookPath) => {
-
+export const optimizeOrder = async (songbookPath: string) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 

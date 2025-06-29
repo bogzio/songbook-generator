@@ -6,7 +6,7 @@ import { Config } from '../config.ts';
 import { toTitleCase, getFormattedHTML } from './utils.ts';
 
 
-export const formatSongs = (songbookPath) => {
+export const formatSongs = (songbookPath: string) => {
 
     fs.readdirSync(path.join(path.normalize(songbookPath), Config.songsDirectory)).forEach(fileName => {
         const filePath = path.join(path.normalize(songbookPath), Config.songsDirectory, fileName);

@@ -25,5 +25,8 @@
     "bugs": {
         "url": "https://github.com/bogzio/songbook-generator/issues"
     },
-    "homepage": "https://github.com/bogzio/songbook-generator#readme"
+    "homepage": "https://github.com/bogzio/songbook-generator#readme",
+    "devDependencies": {
+        "@types/jsdom": "^21.1.7"
+    }
 }
