@@ -14,12 +14,13 @@ const __dirname = dirname(__filename);
 
 const getTocItemHTML = (tocItem: TocItemType) => `
 <div class="tocItem ${tocItem[4] ? 'isNewLetter' : ''}">
-    <div class="name">${tocItem[0]}</div>
-    <div class="tags">
-        ${tocItem[2] ? '<div class="tag non-polish"></div>' : ''}
-        ${tocItem[3] ? '<div class="tag new"></div>' : ''}
+    <div class="tocItemContent">
+        <div class="name">${tocItem[0]}</div>
+        <div class="tags">
+            ${tocItem[2] ? '<div class="tag non-polish"></div>' : ''}
+            ${tocItem[3] ? '<div class="tag new"></div>' : ''}
+        </div>
     </div>
-    <div class="separator"></div>
     <div class="pageNumber">${tocItem[1]}</div>
 </div>
 `;

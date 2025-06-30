@@ -39,6 +39,8 @@
 
     --page-padding: 5mm;
     --page-bleed: 8mm;
+
+    --color-secondary: #a7a7a7;
 }
 
 *, *::before, *::after {
@@ -108,7 +110,7 @@ body {
             order: 2;
 
             &:before {
-                content: '\2691';
+                content: '\2690';
             }
         }
 
@@ -263,19 +265,25 @@ body {
         &:before {
             content: attr(data-extra, "(footer-placeholder)");
             font-style: italic;
-            color: #a7a7a7;
+            color: var(--color-secondary);
         }
     }
 
-    .tocItem {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+    &.toc {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) min-content;
         line-height: 1.5em;
+    }
+
+    .tocItem {
+        display: contents;
 
         &.isNewLetter {
             &:not(:first-child) {
-                margin-top: 0.5em;
+                .tocItemContent,
+                .pageNumber {
+                    padding-top: 0.5em;
+                }
             }
 
             .name:first-letter {
@@ -283,27 +291,55 @@ body {
             }
         }
 
-        .separator {
-            flex-grow: 1;
-            height: 0;
-            border-bottom: 0.25mm dotted #a1a1a1;
-            top: 50%;
+        .tocItemContent {
+            display: flex;
+
+            &:before,
+            &:after {
+                letter-spacing: 1mm;
+                color: var(--color-secondary);
+            }
+
+            &:before {
+                content: '.......................................................................................';
+                margin-left: 2mm;
+                direction: rtl;
+                min-width: 0;
+                overflow: hidden;
+                order: 2;
+            }
+
+            &:after {
+                content: '.';
+                margin-right: 1mm;
+                order: 4;
+            }
         }
 
-        .name,
-        .pageNumber {
-            padding: 0 2mm;
+        .name {
+            white-space: nowrap;
+            order: 1;
         }
 
         .tags {
             display: flex;
+            align-items: center;
             gap: 1mm;
-            padding-right: 2mm;
+            order: 3;
 
             .tag {
-                display: flex;
-                align-items: center;
+                &:first-child {
+                    margin-left: 2mm;
+                }
+
+                &:last-child {
+                    margin-right: 2mm;
+                }
             }
+        }
+
+        .pageNumber {
+            text-align: right;
         }
     }
 
