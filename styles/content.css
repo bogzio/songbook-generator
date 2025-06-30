@@ -283,7 +283,7 @@ body {
             &:not(:first-child) {
                 .tocItemContent,
                 .pageNumber {
-                    padding-top: 0.5em;
+                    padding-top: 1em;
                 }
             }
 
@@ -298,7 +298,6 @@ body {
             &:before,
             &:after {
                 letter-spacing: 1mm;
-                color: var(--color-secondary);
             }
 
             &:before {
@@ -311,7 +310,7 @@ body {
             }
 
             &:after {
-                content: '.';
+                content: '..';
                 margin-right: 1mm;
                 order: 4;
             }
@@ -337,10 +336,6 @@ body {
                     margin-right: 2mm;
                 }
             }
-        }
-
-        .pageNumber {
-            text-align: right;
         }
     }
 
