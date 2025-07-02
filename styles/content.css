@@ -297,7 +297,7 @@ body {
 
             &:before,
             &:after {
-                letter-spacing: 1mm;
+                letter-spacing: 1.5mm;
             }
 
             &:before {
