@@ -35,6 +35,7 @@ const getSongsHeights = async (songbookPath: string, fileNames: string[], page: 
     for (const fileName of fileNames) {
         const filePath = path.join(path.normalize(songbookPath), Config.songsDirectory, fileName);
         await page.goto(filePath);
+        await page.waitForFunction('document.fonts.ready');
         heights.push(...await page.$$eval('.song', elements => elements.map(element => ({
             height: element.clientHeight,
             html: element.outerHTML,
@@ -75,7 +76,7 @@ const removePages = (songbookPath: string, fileNames: string[]) => {
 export const optimizeOrder = async (songbookPath: string) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.setViewport({ width: 650, height: 900, deviceScaleFactor: 2 });
+    await page.setViewport({ width: 650, height: 900 });
 
     const fileNames = fs.readdirSync(path.join(path.normalize(songbookPath), Config.songsDirectory));
 

@@ -10,7 +10,7 @@ import { getSongbookConfig } from './utils.ts';
 const generateFile = async (inputFile: string, outputFile: string, options: PDFOptions) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.setViewport({ width: 650, height: 900, deviceScaleFactor: 2 });
+    await page.setViewport({ width: 650, height: 900 });
     await page.goto(inputFile);
     await page.pdf({
         path: outputFile,
