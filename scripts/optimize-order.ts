@@ -75,6 +75,7 @@ const removePages = (songbookPath: string, fileNames: string[]) => {
 export const optimizeOrder = async (songbookPath: string) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
+    await page.setViewport({ width: 650, height: 900, deviceScaleFactor: 2 });
 
     const fileNames = fs.readdirSync(path.join(path.normalize(songbookPath), Config.songsDirectory));
 
