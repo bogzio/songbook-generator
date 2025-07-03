@@ -329,7 +329,7 @@ body {
 
             .tag {
                 &:first-child {
-                    margin-left: 2mm;
+                    margin-left: 0.7mm;
                 }
 
                 &:last-child {
