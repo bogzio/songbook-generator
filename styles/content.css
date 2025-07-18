@@ -121,6 +121,10 @@ body {
                 content: '\2726';
             }
         }
+
+        &.popularity {
+            display: none;
+        }
     }
 }
 
