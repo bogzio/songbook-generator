@@ -57,6 +57,7 @@ moj-maly-spiewniczek
             <span class="tags">
                 <span class="tag capo">5</span>
                 <span class="tag non-polish"></span>
+                <span class="tag popularity">3</span>
             </span>
         </header>
         <div class="content-wrapper columns-2">
@@ -74,6 +75,7 @@ moj-maly-spiewniczek
 * tag `capo` dodaje informację o tym na jakim progu umieścić kapodaster
 * tag `new` że jest to nowo dodana piosenka (na razie dodaje przy niej symbol gwiazdki a w przyszłości komenda `optimize-order` będzie miała możliwość wyboru czy przesuwać między stronami jedynie nowe piosenki)
 * tag `non-polish` dodaje oznaczenie o tym, że piosenka nie jest w języku polskim (pojawi się ono tez w spisie treści, przydatne do szukania czegoś do zaśpiewania ze znajomymi nie znającymi polskiego)
+* tag `popularity` pozwala ustawiać popularność piosenek, strony z wyższą sumaryczną popularnością będą umieszczane wcześniej przy optymalizacji kolejności
 
 Po generacji plików do druku wygląd może się trochę zmienić - dodawane są np marginesy na oprawę. Natomiast jest to tak rozwiązane że miejsca na treść będzie tyle samo, więc można założyć że jeżeli nie przelewa się na pliku z pojedynczą stroną to będzie tak też w wygenerowanych plikach. Pamiętaj o wywołaniu skryptu `format-songs` przed ostatecznym sprawdzeniem - dodaje on między innymi spacje między akordami, co może wpłynąć na rozjazd tekstu.
 

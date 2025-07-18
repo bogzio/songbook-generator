@@ -71,7 +71,8 @@ export type TocItemType = [
     isNewLetter: boolean,
 ];
 
-export type SongWithHeight = {
+export type SongWithMetadata = {
     height: number,
     html: string,
+    popularity: number,
 }

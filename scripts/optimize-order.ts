@@ -4,7 +4,7 @@ import puppeteer, { Page } from 'puppeteer';
 
 import { Config } from '../config.ts';
 import { addPageWithSongs} from './add-page.ts';
-import type { SongWithHeight } from '../types.js';
+import type { SongWithMetadata } from '../types.js';
 
 
 const getPageHeight = async (pagePath: string, page: Page): Promise<number> => {
@@ -30,7 +30,7 @@ const getSongsMargin = async (songbookPath: string, fileNames: string[], page: P
     return 0;
 }
 
-const getSongsHeights = async (songbookPath: string, fileNames: string[], page: Page): Promise<SongWithHeight[]> => {
+const getSongsMetadata = async (songbookPath: string, fileNames: string[], page: Page): Promise<SongWithMetadata[]> => {
     const heights = [];
     for (const fileName of fileNames) {
         const filePath = path.join(path.normalize(songbookPath), Config.songsDirectory, fileName);
@@ -39,14 +39,18 @@ const getSongsHeights = async (songbookPath: string, fileNames: string[], page: 
         heights.push(...await page.$$eval('.song', elements => elements.map(element => ({
             height: element.clientHeight,
             html: element.outerHTML,
+            popularity: parseInt(element.querySelector('.tag.popularity')?.innerHTML ?? '0'),
         }))));
     }
     return heights;
 }
 
-const orderSongs = (songs: SongWithHeight[], songsMargin: number, pageHeight: number): SongWithHeight[][] => {
+const getGroupRating = (group: SongWithMetadata[]) =>
+    group.reduce((sum, { popularity }) => sum + popularity, 0)
+
+const orderSongs = (songs: SongWithMetadata[], songsMargin: number, pageHeight: number): SongWithMetadata[][] => {
     const sorted = songs.toSorted((a, b) => b.height - a.height);
-    const groups = [];
+    const groups: SongWithMetadata[][] = [];
 
     for (const song of sorted) {
         let pushed = false;
@@ -63,7 +67,7 @@ const orderSongs = (songs: SongWithHeight[], songsMargin: number, pageHeight: nu
         }
     }
 
-    return groups;
+    return groups.toSorted((a, b) => getGroupRating(b) - getGroupRating(a));
 }
 
 const removePages = (songbookPath: string, fileNames: string[]) => {
@@ -82,7 +86,7 @@ export const optimizeOrder = async (songbookPath: string) => {
 
     const pageHeight = await getPageHeight(path.join(path.normalize(songbookPath), Config.songsDirectory, fileNames[0]), page);
     const songsMargin = await getSongsMargin(songbookPath, fileNames, page);
-    const songsHeights = await getSongsHeights(songbookPath, fileNames, page);
+    const songsHeights = await getSongsMetadata(songbookPath, fileNames, page);
 
     const groups = orderSongs(songsHeights, songsMargin, pageHeight);
 
