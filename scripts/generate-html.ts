@@ -152,7 +152,7 @@ export const generateHtml = (songbookPath: string) => {
 
     const endPages = getEndPages(songbookPath);
     const missingPages = htmlParts.length % 2;
-    const missingBookletPages = (htmlParts.length + endPages.length) % 4 - missingPages;
+    const missingBookletPages = (htmlParts.length + endPages.length + missingPages) % 4;
 
     htmlParts.push(...Array(missingPages).fill(getEmptyPageHTML()));
     htmlParts.push(...Array(missingBookletPages).fill(getEmptyPageHTML(true)));
