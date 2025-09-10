@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 
 import { Command, Argument } from 'commander';
-import { confirm } from '@inquirer/prompts';
+import readlineSync from 'readline-sync';
 
 import { addPage } from './scripts/add-page.ts';
 import { formatSongs } from './scripts/format-songs.ts';
 import { generateHtml } from './scripts/generate-html.ts';
 import { generatePdf } from './scripts/generate-pdf.ts';
 import { optimizeOrder } from './scripts/optimize-order.ts';
+import { lockSongs } from './scripts/lock-songs.ts';
 
 
 const program = new Command();
@@ -55,9 +56,7 @@ program
     .summary('rozkłada piosenki optymalnie')
     .description('rozkłada piosenki na stronach tak aby zmieściło się ich jak najwięcej na jak najmniejszej liczbie stron')
     .action(async () => {
-        const confirmed = await confirm({
-            message: 'Ta operacja nadpisze cały katalog songs, czy jesteś pewien?',
-        });
+        const confirmed = readlineSync.keyInYN('Ta operacja nadpisze cały katalog songs, czy jesteś pewien?');
 
         if (confirmed) {
             console.log('optymalizacja kolejności...')
@@ -67,6 +66,16 @@ program
             console.log('Anulowano.');
         }
 
+    })
+
+program
+    .command('lock-songs')
+    .summary('blokuje pozycję piosenki na danej stronie')
+    .description('zachowuje aktualną kolejność piosenek i zabezpiecza je przed użyciem optimize-order')
+    .action(() => {
+        console.log('blokowanie piosenek...')
+        lockSongs(process.cwd());
+        console.log('zablokowano!')
     })
 
 program.parse();

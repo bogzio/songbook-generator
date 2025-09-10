@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path, { dirname } from 'path';
-import { JSDOM } from 'jsdom';
+import { parseHTML } from 'linkedom';
 import { fileURLToPath } from 'url';
 
 import { Config } from '../config.ts';
@@ -14,20 +14,20 @@ const __dirname = dirname(__filename);
 
 const getTocItemHTML = (tocItem: TocItemType) => `
 <div class="tocItem ${tocItem[4] ? 'isNewLetter' : ''}">
-    <div class="tocItemContent">
+    <div class="tags">
+        ${tocItem[2] ? '<div class="tag non-polish"></div>' : '<div class="tag"></div>'}
+        ${tocItem[3] ? '<div class="tag new"></div>' : '<div class="tag"></div>'}
+    </div>
+    <div class="nameWrapper">
         <div class="name">${tocItem[0]}</div>
-        <div class="tags">
-            ${tocItem[2] ? '<div class="tag non-polish"></div>' : ''}
-            ${tocItem[3] ? '<div class="tag new"></div>' : ''}
-        </div>
     </div>
     <div class="pageNumber">${tocItem[1]}</div>
 </div>
 `;
 
 const emptyTemplateFile = fs.readFileSync(path.join(__dirname, '..', Config.templatesDirectory, Config.emptyTemplate));
-const emptyTemplateDom = new JSDOM(emptyTemplateFile.toString());
-const emptyPage = emptyTemplateDom.window.document.querySelector('.page');
+const { document: emptyTemplateDocument } = parseHTML(emptyTemplateFile.toString());
+const emptyPage = emptyTemplateDocument.querySelector('.page');
 
 const getEmptyPageHTML = (isBookletOnly: boolean = false) => {
     emptyPage.classList.toggle('booklet-only', isBookletOnly);
@@ -42,8 +42,8 @@ const getTitlePages = (songbookPath: string) => {
         return [];
     }
 
-    const titlePageDOM = new JSDOM(titlePage.toString());
-    const pageElement = titlePageDOM.window.document.querySelector('.page');
+    const { document: titlePageDocument } = parseHTML(titlePage.toString());
+    const pageElement = titlePageDocument.querySelector('.page');
 
     return [
         pageElement.outerHTML,
@@ -56,11 +56,11 @@ const getToc = (songsDirectory: string) => {
 
     fs.readdirSync(songsDirectory).forEach(fileName => {
         const file = fs.readFileSync(path.join(songsDirectory, fileName));
-        const dom = new JSDOM(file.toString());
+        const { document } = parseHTML(file.toString());
 
         const pageNumber = parseInt(fileName);
 
-        dom.window.document.querySelectorAll('.song').forEach(songElement => {
+        document.querySelectorAll('.song').forEach(songElement => {
             const nameElements = songElement.querySelectorAll('.title, .author');
             const name = Array.from(nameElements).map((element: HTMLElement) => element.innerHTML).join(' – ');
             const nonPolish = !!songElement.querySelector('.non-polish');
@@ -72,9 +72,9 @@ const getToc = (songsDirectory: string) => {
     toc.sort((a, b) => a[0].localeCompare(b[0]));
 
     const tocTemplateFile = fs.readFileSync(path.join(__dirname, '..', Config.templatesDirectory, Config.tocTemplate));
-    const tocTemplateDom = new JSDOM(tocTemplateFile.toString());
+    const { document: tocTemplateDocument } = parseHTML(tocTemplateFile.toString());
 
-    const pageElement = tocTemplateDom.window.document.querySelector('.page');
+    const pageElement = tocTemplateDocument.querySelector('.page');
 
     const groups = [[[...toc[0], true]]];
     let currentGroupSize = 1;
@@ -109,8 +109,8 @@ const getSongs = (songsDirectory: string, songbookConfig: SongbookConfigType) =>
     fs.readdirSync(songsDirectory).forEach(fileName => {
         const file = fs.readFileSync(path.join(songsDirectory, fileName));
         const pageNumber = parseInt(fileName);
-        const dom = new JSDOM(file.toString());
-        const page = dom.window.document.querySelector('.page');
+        const { document } = parseHTML(file.toString());
+        const page = document.querySelector('.page');
 
         page.classList.add(pageNumber %2 === 0 ? 'left' : 'right');
         page.querySelector('footer').innerHTML = pageNumber.toString();
@@ -130,8 +130,8 @@ const getEndPages = (songbookPath: string) => {
         return [];
     }
 
-    const endPageDOM = new JSDOM(endPage.toString());
-    const pageElement = endPageDOM.window.document.querySelector('.page');
+    const { document: endPageDocument } = parseHTML(endPage.toString());
+    const pageElement = endPageDocument.querySelector('.page');
 
     return [
         getEmptyPageHTML(),
@@ -168,19 +168,19 @@ export const generateHtml = (songbookPath: string) => {
     const htmlOutputFile = `${Config.songbookPrefix}-${songbookConfig.version}.html`;
     fs.writeFileSync(path.join(path.normalize(songbookPath), Config.outputDirectory, htmlOutputFile), indexContent);
 
-    const indexDom = new JSDOM(indexContent);
+    const { document: indexDocument } = parseHTML(indexContent);
 
-    indexDom.window.document.querySelector('body').classList.add('booklet');
+    indexDocument.querySelector('body').classList.add('booklet');
 
-    const pages = indexDom.window.document.querySelectorAll('.page');
+    const pages = indexDocument.querySelectorAll('.page');
     pages.forEach((page, index) => {
         page.setAttribute('style', `order: ${getBookletOrder(index, pages.length)}`);
     });
 
     const pagesCount = pages.length;
-    const songsCount = indexDom.window.document.querySelectorAll('.song').length;
+    const songsCount = indexDocument.querySelectorAll('.song').length;
     console.log(`${songsCount} piosenek / ${pagesCount} stron / ${pagesCount / 4} kartek w booklecie`);
 
     const htmlBookletOutputFile = `${Config.bookletPrefix}-${songbookConfig.version}.html`;
-    fs.writeFileSync(path.join(path.normalize(songbookPath), Config.outputDirectory, htmlBookletOutputFile), getFormattedHTML(indexDom));
+    fs.writeFileSync(path.join(path.normalize(songbookPath), Config.outputDirectory, htmlBookletOutputFile), getFormattedHTML(indexDocument));
 }

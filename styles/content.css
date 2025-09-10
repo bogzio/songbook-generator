@@ -37,8 +37,9 @@
     --page-width: 148.5mm;
     --page-height: 210mm;
 
-    --page-padding: 5mm;
-    --page-bleed: 8mm;
+    --page-padding-vertical: 5mm;
+    --page-padding-horizontal: 8mm;
+    --page-bleed: 2mm;
 
     --color-secondary: #a7a7a7;
 }
@@ -122,7 +123,8 @@ body {
             }
         }
 
-        &.popularity {
+        &.popularity,
+        &.locked {
             display: none;
         }
     }
@@ -131,22 +133,22 @@ body {
 .page {
     width: var(--page-width);
     height: var(--page-height);
-    padding: var(--page-padding);
+    padding: var(--page-padding-vertical) var(--page-padding-horizontal);
     font-size: 3mm;
     position: relative;
     break-after: page;
 
     &.left {
-        padding-right: calc(var(--page-padding) + var(--page-bleed));
+        padding-right: calc(var(--page-padding-horizontal) + var(--page-bleed));
     }
 
     &.right {
-        padding-left: calc(var(--page-padding) + var(--page-bleed));
+        padding-left: calc(var(--page-padding-horizontal) + var(--page-bleed));
     }
 
     &:not(.left):not(.right) {
-        padding-left: calc((2 * var(--page-padding) + var(--page-bleed)) / 2);
-        padding-right: calc((2 * var(--page-padding) + var(--page-bleed)) / 2);
+        padding-left: calc((2 * var(--page-padding-horizontal) + var(--page-bleed)) / 2);
+        padding-right: calc((2 * var(--page-padding-horizontal) + var(--page-bleed)) / 2);
     }
 
     @media screen {
@@ -243,9 +245,9 @@ body {
 
     & footer {
         position: absolute;
-        bottom: var(--page-padding);
-        left: var(--page-padding);
-        right: var(--page-padding);
+        bottom: var(--page-padding-vertical);
+        left: var(--page-padding-horizontal);
+        right: var(--page-padding-horizontal);
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -254,16 +256,16 @@ body {
 
         .left & {
             flex-direction: row-reverse;
-            right: calc(var(--page-padding) + var(--page-bleed));
+            right: calc(var(--page-padding-horizontal) + var(--page-bleed));
         }
 
         .right & {
-            left: calc(var(--page-padding) + var(--page-bleed));
+            left: calc(var(--page-padding-horizontal) + var(--page-bleed));
         }
 
         .page:not(.left):not(.right) & {
-            left: calc((2 * var(--page-padding) + var(--page-bleed)) / 2);
-            right: calc((2 * var(--page-padding) + var(--page-bleed)) / 2);
+            left: calc((2 * var(--page-padding-horizontal) + var(--page-bleed)) / 2);
+            right: calc((2 * var(--page-padding-horizontal) + var(--page-bleed)) / 2);
         }
 
         &:before {
@@ -275,8 +277,9 @@ body {
 
     &.toc {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) min-content;
-        line-height: 1.5em;
+        grid-template-columns: auto 1fr auto;
+        gap: 0 2mm;
+        line-height: 1.7em;
         align-content: start;
     }
 
@@ -284,11 +287,8 @@ body {
         display: contents;
 
         &.isNewLetter {
-            &:not(:first-child) {
-                .tocItemContent,
-                .pageNumber {
-                    padding-top: 1em;
-                }
+            &:not(:first-child) > * {
+                padding-top: 1em;
             }
 
             .name:first-letter {
@@ -296,49 +296,27 @@ body {
             }
         }
 
-        .tocItemContent {
-            display: flex;
-
-            &:before,
-            &:after {
-                letter-spacing: 1.5mm;
-            }
-
-            &:before {
-                content: '.......................................................................................';
-                margin-left: 2mm;
-                direction: rtl;
-                min-width: 0;
-                overflow: hidden;
-                order: 2;
-            }
-
-            &:after {
-                content: '..';
-                margin-right: 1mm;
-                order: 4;
-            }
-        }
-
-        .name {
-            white-space: nowrap;
-            order: 1;
-        }
-
         .tags {
-            display: flex;
-            align-items: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 1mm;
-            order: 3;
 
             .tag {
-                &:first-child {
-                    margin-left: 0.7mm;
-                }
+                order: initial;
+            }
+        }
 
-                &:last-child {
-                    margin-right: 2mm;
-                }
+        .nameWrapper {
+            white-space: nowrap;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 2mm;
+
+            &:after {
+                letter-spacing: 1.5mm;
+                content: '.......................................................................................';
+                overflow: hidden;
+                direction: rtl;
             }
         }
     }

@@ -14,8 +14,8 @@ export const Config: ConfigType = {
     songTemplate: "song.template.html",
     emptyTemplate: "empty.template.html",
 
-    tocItemsCountPerPage: 44,
-    tocItemNewLetterSizeFactor: 1.666,
+    tocItemsCountPerPage: 39,
+    tocItemNewLetterSizeFactor: 1.588,
 
     songbookConfigFile: "songbook-config.json"
 }

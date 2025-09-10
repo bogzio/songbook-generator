@@ -1,4 +1,4 @@
-import path from 'path';
+import path, { dirname } from 'path';
 import fs from 'fs';
 import puppeteer, { Page } from 'puppeteer';
 
@@ -39,7 +39,9 @@ const getSongsMetadata = async (songbookPath: string, fileNames: string[], page:
         heights.push(...await page.$$eval('.song', elements => elements.map(element => ({
             height: element.clientHeight,
             html: element.outerHTML,
+            title: element.querySelector('.title')?.innerHTML,
             popularity: parseInt(element.querySelector('.tag.popularity')?.innerHTML ?? '0'),
+            lockedPosition: element.querySelector('.tag.locked')?.innerHTML,
         }))));
     }
     return heights;
@@ -49,8 +51,22 @@ const getGroupRating = (group: SongWithMetadata[]) =>
     group.reduce((sum, { popularity }) => sum + popularity, 0)
 
 const orderSongs = (songs: SongWithMetadata[], songsMargin: number, pageHeight: number): SongWithMetadata[][] => {
-    const sorted = songs.toSorted((a, b) => b.height - a.height);
-    const groups: SongWithMetadata[][] = [];
+    const lockedSongs = songs.filter(song => song.lockedPosition);
+    const otherSongs = songs.filter(song => !song.lockedPosition);
+
+    const initialGroupsSize = Math.max(...lockedSongs.map(song => parseInt(song.lockedPosition, 10)), 0);
+
+    const groups: SongWithMetadata[][] = Array.from({ length: initialGroupsSize }, () => []);
+
+    for (const lockedSong of lockedSongs) {
+        const index = parseInt(lockedSong.lockedPosition, 10) - 1;
+        groups[index].push(lockedSong);
+        groups[index].sort((a, b) => a.lockedPosition.localeCompare(b.lockedPosition));
+    }
+
+    const sorted = otherSongs
+        .toSorted((a, b) => a.title.localeCompare(b.title))
+        .toSorted((a, b) => b.height - a.height);
 
     for (const song of sorted) {
         let pushed = false;
@@ -67,7 +83,12 @@ const orderSongs = (songs: SongWithMetadata[], songsMargin: number, pageHeight: 
         }
     }
 
-    return groups.toSorted((a, b) => getGroupRating(b) - getGroupRating(a));
+    return groups.toSorted((a, b) => {
+        if ([...a, ...b].some(song => song.lockedPosition)) {
+            return 0;
+        }
+        return getGroupRating(b) - getGroupRating(a);
+    });
 }
 
 const removePages = (songbookPath: string, fileNames: string[]) => {

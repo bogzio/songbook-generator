@@ -74,5 +74,7 @@ export type TocItemType = [
 export type SongWithMetadata = {
     height: number,
     html: string,
+    title: string,
     popularity: number,
+    lockedPosition: string | undefined,
 }

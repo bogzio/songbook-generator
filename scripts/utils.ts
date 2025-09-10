@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import type { JSDOM } from 'jsdom';
 
 import { Config } from '../config.ts';
 import type { SongbookConfigType } from '../types.js';
@@ -13,8 +12,8 @@ export const toTitleCase = (string: string): string =>
         .map(word => word.replace(/^./, str => str.toLocaleUpperCase()))
         .join(' ');
 
-export const getFormattedHTML = (dom: JSDOM): string =>
-    dom.window.document.documentElement.outerHTML
+export const getFormattedHTML = (document: Document): string =>
+    document.documentElement.outerHTML
         .replace('<html', '<!DOCTYPE html>\n<html')
         .replace('<html lang="pl"><head>', '<html lang="pl">\n<head>')
         .replace(/<\/div>\s+<\/body><\/html>/, '</div>\n</body>\n</html>');
